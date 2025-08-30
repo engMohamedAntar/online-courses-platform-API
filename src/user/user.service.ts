@@ -48,6 +48,7 @@ export class UserService {
     const updatedUser = { ...user, ...body };
     return await this.usersRepository.save(updatedUser);
   }
+  
   async removeUser(id: number) {
     await this.usersRepository.delete({ id });
   }

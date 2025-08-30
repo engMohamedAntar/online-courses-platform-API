@@ -1,5 +1,6 @@
 //user.entity.ts
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Course } from "src/course/course.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum UserRole {
   STUDENT= 'student',
@@ -21,6 +22,10 @@ export class User {
   role: UserRole;
   @Column({nullable: true})
   profileImage: string;
+
+  @OneToMany(()=>Course, (course)=> course.instructor)
+  courses: [Course];
+
   @Column({default: true})
   isActive: boolean;
   @CreateDateColumn()
