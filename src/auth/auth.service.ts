@@ -31,6 +31,8 @@ export class AuthService {
 
   async login(body: LoginDto){
     const user= await this.userRepo.findOneBy({email: body.email});
+    console.log(user);
+    
     if(!user)
       throw new NotFoundException('No user found for this email');
     //check weather user body.password === user.password using bcrypt    

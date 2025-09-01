@@ -4,10 +4,11 @@ import { User } from './user.entity';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { Course } from 'src/course/course.entity';
+import { Lesson } from 'src/lesson/lesson.entity';
 
 //user.module.ts
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Course])],
+  imports: [TypeOrmModule.forFeature([User, Course, Lesson])],
   providers: [UserService],
   exports: [TypeOrmModule],
   controllers: [UserController]

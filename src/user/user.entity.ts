@@ -1,4 +1,5 @@
 //user.entity.ts
+import { Exclude } from "class-transformer";
 import { Course } from "src/course/course.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -16,7 +17,8 @@ export class User {
   name: string;
   @Column({unique:true})
   email: string;
-  @Column()
+
+  @Exclude()
   password: string;
   @Column({enum:UserRole, default: UserRole.STUDENT})
   role: UserRole;

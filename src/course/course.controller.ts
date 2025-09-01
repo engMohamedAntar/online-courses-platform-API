@@ -25,12 +25,7 @@ export class CourseController {
   @Roles('instructor')
   @Post()
   async createCourse(@Body() body, @Req() req) {
-    const userId = req.user.id;
-    console.log('reached here');
-
-    console.log(userId);
-
-    return await this.courseService.createCourse(body, userId);
+    return await this.courseService.createCourse(body, req.user.id);
   }
 
   @Get()

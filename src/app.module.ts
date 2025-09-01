@@ -9,6 +9,6 @@ import { LessonModule } from './lesson/lesson.module';
 
 @Module({
   imports: [AuthModule, DatabaseModule, ConfigModule.forRoot(), UserModule, CourseModule, LessonModule],
-    providers: [{provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor}]
+    providers: [{provide: APP_INTERCEPTOR, useClass: ValidationPipe}]
 })
 export class AppModule {}
