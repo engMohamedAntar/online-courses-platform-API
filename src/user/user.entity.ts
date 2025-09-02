@@ -1,12 +1,19 @@
 //user.entity.ts
-import { Exclude } from "class-transformer";
-import { Course } from "src/course/course.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Exclude } from 'class-transformer';
+import { Course } from 'src/course/course.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum UserRole {
-  STUDENT= 'student',
-  INSTRUCTOR= 'instructor',
-  ADMIN= 'admin'
+  STUDENT = 'student',
+  INSTRUCTOR = 'instructor',
+  ADMIN = 'admin',
 }
 
 @Entity('User')
@@ -15,20 +22,20 @@ export class User {
   id: number;
   @Column()
   name: string;
-  @Column({unique:true})
+  @Column({ unique: true })
   email: string;
 
   @Exclude()
   password: string;
-  @Column({enum:UserRole, default: UserRole.STUDENT})
+  @Column({ enum: UserRole, default: UserRole.STUDENT })
   role: UserRole;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   profileImage: string;
 
-  @OneToMany(()=>Course, (course)=> course.instructor)
+  @OneToMany(() => Course, (course) => course.instructor)
   courses: [Course];
 
-  @Column({default: true})
+  @Column({ default: true })
   isActive: boolean;
   @CreateDateColumn()
   createdAt: Date;

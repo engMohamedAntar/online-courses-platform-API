@@ -6,9 +6,10 @@ import { UserModule } from './user/user.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CourseModule } from './course/course.module';
 import { LessonModule } from './lesson/lesson.module';
+import { EnrollmentModule } from './enrollment/enrollment.module';
 
 @Module({
-  imports: [AuthModule, DatabaseModule, ConfigModule.forRoot(), UserModule, CourseModule, LessonModule],
-    providers: [{provide: APP_INTERCEPTOR, useClass: ValidationPipe}]
+  imports: [AuthModule, DatabaseModule, ConfigModule.forRoot(), UserModule, CourseModule, LessonModule, EnrollmentModule],
+    providers: [{provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor}]
 })
 export class AppModule {}
