@@ -5,6 +5,7 @@ import { User } from '../user/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Course } from 'src/course/course.entity';
 import { Lesson } from 'src/lesson/lesson.entity';
+import { Enrollment } from 'src/enrollment/enrollment.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { Lesson } from 'src/lesson/lesson.entity';
         username: configService.get("DB_USER"), 
         password: configService.get("DB_PASSWORD"),
         database: configService.get("DB_NAME"),
-        entities: [User,Course, Lesson],
+        entities: [User,Course, Lesson, Enrollment],
         synchronize: true,
       }),
     }),

@@ -1,9 +1,12 @@
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { Course } from 'src/course/course.entity';
+import { User } from 'src/user/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 //enrollment.entity.ts
@@ -18,20 +21,22 @@ export class Enrollment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @IsNotEmpty()
-  @IsInt()
-  @Column()
-  userId: number;
+  @ManyToOne(() => User, (user) => user.enrollments, { onDelete: 'CASCADE' })
+  user: User;
 
-  @IsNotEmpty()
-  @IsInt()
-  @Column()
-  courseId: number;
+  @ManyToOne(() => Course, (course) => course.enrollments, {onDelete: 'CASCADE'})
+  course: Course;
 
-  @IsNotEmpty()
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: PaymentStatus,
+    default: PaymentStatus.PENDING,
+  })
   paymentStatus: PaymentStatus;
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

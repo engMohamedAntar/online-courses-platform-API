@@ -1,6 +1,7 @@
 //user.entity.ts
 import { Exclude } from 'class-transformer';
 import { Course } from 'src/course/course.entity';
+import { Enrollment } from 'src/enrollment/enrollment.entity';
 import {
   Column,
   CreateDateColumn,
@@ -16,6 +17,7 @@ export enum UserRole {
   ADMIN = 'admin',
 }
 
+//user.entity.ts
 @Entity('User')
 export class User {
   @PrimaryGeneratedColumn()
@@ -25,15 +27,20 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Exclude()
+  @Exclude() 
+  @Column() 
   password: string;
+
   @Column({ enum: UserRole, default: UserRole.STUDENT })
   role: UserRole;
   @Column({ nullable: true })
   profileImage: string;
 
-  @OneToMany(() => Course, (course) => course.instructor)
+  @OneToMany(() => Course, (course) => course.instructor) 
   courses: [Course];
+
+  @OneToMany(()=> Enrollment, (enrollment)=> enrollment.user)
+  enrollments: Enrollment[];
 
   @Column({ default: true })
   isActive: boolean;

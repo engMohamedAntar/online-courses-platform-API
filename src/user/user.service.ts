@@ -49,7 +49,7 @@ export class UserService {
     if (!user) throw new NotFoundException('No user found for this id');
     const updatedUser = { ...user, ...body };
     return await this.usersRepository.save(updatedUser);
-  }
+  } 
   
   async removeUser(id: number) {
     await this.usersRepository.delete({ id });

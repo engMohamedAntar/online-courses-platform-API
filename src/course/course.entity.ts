@@ -1,3 +1,4 @@
+import { Enrollment } from 'src/enrollment/enrollment.entity';
 import { Lesson } from 'src/lesson/lesson.entity';
 import { User } from 'src/user/user.entity';
 import {
@@ -37,6 +38,9 @@ export class Course {
 
   @OneToMany(()=> Lesson, (lesson)=> lesson.course)
   lessons: Lesson[];
+
+  @OneToMany(()=> Enrollment, (enrollment)=> enrollment.course)
+  enrollments: Enrollment[];
 
   @CreateDateColumn()
   createdAt: Date;
