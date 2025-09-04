@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -13,8 +14,9 @@ import { CreateEnrollmentDto } from './dto/createEnrollment.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guards';
+import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
 
-@UseGuards(AuthGuard('jwt'), RolesGuard )
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('enrollment')
 export class EnrollmentController {
   constructor(private enrollmentService: EnrollmentService) {}
@@ -24,18 +26,36 @@ export class EnrollmentController {
   async createEnrollment(@Body() body: CreateEnrollmentDto, @Req() req) {
     return await this.enrollmentService.createEnrollment(body, req.user.id);
   }
-  
+
   @Get('/:id')
   async getEnrollmentById(@Param('id', ParseIntPipe) id: number, @Req() req) {
     return await this.enrollmentService.getEnrollmentById(id, req.user.id);
   }
-  
+
   @Roles('admin', 'instructor')
   @Get('/course/:courseId')
-  async getCourseEnrollments(@Param('courseId', ParseIntPipe) courseId, @Req() req) {
-    return await this.enrollmentService.getCourseEnrollments(courseId, req.user.id);
+  async getCourseEnrollments(
+    @Param('courseId', ParseIntPipe) courseId,
+    @Req() req,
+  ) {
+    return await this.enrollmentService.getCourseEnrollments(
+      courseId,
+      req.user.id,
+    );
   }
- 
 
+  @Roles('admin', 'student')
+  @Get('/user/:userId')
+  async getUserEnrollments(@Param('userId', ParseIntPipe) userId, @Req() req) {
+    return await this.enrollmentService.getUserEnrollments(userId, req.user);
+  }
 
+  @Roles('admin')
+  @Patch(':id')
+  async updateEnrollmentStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateEnrollmentStatusDto,
+  ) {
+    return await this.enrollmentService.updateEnrollmentStatus(id, body);
+  }
 }

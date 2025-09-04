@@ -10,6 +10,7 @@ import { Enrollment } from './enrollment.entity';
 import { Repository } from 'typeorm';
 import { User, UserRole } from 'src/user/user.entity';
 import { Course } from 'src/course/course.entity';
+import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
 
 @Injectable()
 export class EnrollmentService {
@@ -95,7 +96,6 @@ export class EnrollmentService {
     if (!course)
       throw new NotFoundException(`No course found for this id ${courseId}`);
 
-
     //if user is instructor then ensure that he owns this course
     if (user.role === UserRole.INSTRUCTOR && course.instructor.id !== user.id)
       throw new ForbiddenException(
@@ -105,5 +105,31 @@ export class EnrollmentService {
     return await this.enrollmentRepo.find({
       where: { course: { id: courseId } },
     });
+  }
+
+  async getUserEnrollments(
+    userId: number,
+    loggedInUser: { id: number; role: UserRole },
+  ) {
+    //If user role is student, then ensure that he shows his own enrollments
+    if (loggedInUser.role === UserRole.STUDENT && loggedInUser.id !== userId)
+      throw new ForbiddenException(
+        `You are not allowed to show enrollments of this user`,
+      );
+
+    //get enrollmets of the loggedIn user return it.
+    return await this.enrollmentRepo.find({
+      where: { user: { id: userId } },
+    });
+  }
+
+  async updateEnrollmentStatus(enrollmentId:number ,body: UpdateEnrollmentStatusDto){
+    //get enrollment
+    const enrollment= await this.enrollmentRepo.findOneBy({id:enrollmentId});
+    if(!enrollment)
+      throw new NotFoundException(`No enrollment found for this id ${enrollmentId}`);
+
+    enrollment.paymentStatus= body.status;
+    return await this.enrollmentRepo.save(enrollment);
   }
 }
