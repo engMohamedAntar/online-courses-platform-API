@@ -5,12 +5,10 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { EnrollmentService } from './enrollment.service';
-import { CreateEnrollmentDto } from './dto/createEnrollment.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guards';
@@ -20,12 +18,6 @@ import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
 @Controller('enrollment')
 export class EnrollmentController {
   constructor(private enrollmentService: EnrollmentService) {}
-
-  @Roles('student')
-  @Post()
-  async createEnrollment(@Body() body: CreateEnrollmentDto, @Req() req) {
-    return await this.enrollmentService.createEnrollment(body, req.user.id);
-  }
 
   @Get('/:id')
   async getEnrollmentById(@Param('id', ParseIntPipe) id: number, @Req() req) {

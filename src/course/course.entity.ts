@@ -1,5 +1,6 @@
 import { Enrollment } from 'src/enrollment/enrollment.entity';
 import { Lesson } from 'src/lesson/lesson.entity';
+import { Payment } from 'src/payment/payment.entity';
 import { User } from 'src/user/user.entity';
 import {
   Column,
@@ -18,7 +19,7 @@ export class Course {
   id: number;
   @Column()
   title: string;
-  @Column({ type: 'text' , nullable: true})
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Column({ nullable: true })
@@ -28,19 +29,22 @@ export class Course {
   price: number;
 
   @Column({ default: 0 })
-  duration: number; 
+  duration: number;
 
   @Column({ default: 0 })
   enrolledCount: number;
 
-  @ManyToOne(()=> User, (user)=> user.courses)
-  instructor: User
+  @ManyToOne(() => User, (user) => user.courses)
+  instructor: User;
 
-  @OneToMany(()=> Lesson, (lesson)=> lesson.course)
+  @OneToMany(() => Lesson, (lesson) => lesson.course)
   lessons: Lesson[];
 
-  @OneToMany(()=> Enrollment, (enrollment)=> enrollment.course)
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
   enrollments: Enrollment[];
+
+  @OneToMany(() => Payment, (payment) => payment.course)
+  payments: Payment[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -2,6 +2,7 @@
 import { Exclude } from 'class-transformer';
 import { Course } from 'src/course/course.entity';
 import { Enrollment } from 'src/enrollment/enrollment.entity';
+import { Payment } from 'src/payment/payment.entity';
 import {
   Column,
   CreateDateColumn,
@@ -41,6 +42,10 @@ export class User {
 
   @OneToMany(()=> Enrollment, (enrollment)=> enrollment.user)
   enrollments: Enrollment[];
+
+  @OneToMany(() => Payment, (payment) => payment.user)
+  payments: Payment[];
+  
 
   @Column({ default: true })
   isActive: boolean;

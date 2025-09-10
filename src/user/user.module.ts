@@ -6,10 +6,11 @@ import { UserController } from './user.controller';
 import { Course } from 'src/course/course.entity';
 import { Lesson } from 'src/lesson/lesson.entity';
 import { Enrollment } from 'src/enrollment/enrollment.entity';
+import { Payment } from 'src/payment/payment.entity';
 
 //user.module.ts
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Course, Lesson, Enrollment])],
+  imports: [TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, Payment])],
   providers: [UserService],
   exports: [TypeOrmModule],
   controllers: [UserController]

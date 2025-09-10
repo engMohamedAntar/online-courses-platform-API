@@ -1,17 +1,17 @@
 import {
-  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateEnrollmentDto } from './dto/createEnrollment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Enrollment } from './enrollment.entity';
+import { Enrollment, PaymentStatus } from './enrollment.entity';
 import { Repository } from 'typeorm';
 import { User, UserRole } from 'src/user/user.entity';
 import { Course } from 'src/course/course.entity';
 import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
+import { Payment } from 'src/payment/payment.entity';
 
+//enrollment.service
 @Injectable()
 export class EnrollmentService {
   constructor(
@@ -21,34 +21,25 @@ export class EnrollmentService {
     private userRepo: Repository<User>,
     @InjectRepository(Course)
     private courseRepo: Repository<Course>,
+    @InjectRepository(Payment)
+    private paymentRepo: Repository<Payment>,
   ) {}
-  async createEnrollment(body: CreateEnrollmentDto, userId: number) {
-    // Get user and verify its existance
-    const user = await this.userRepo.findOneBy({ id: userId });
-    if (!user)
-      throw new NotFoundException(`No user found for this id ${userId}`);
 
-    // Get course and verify its existance
-    const course = await this.courseRepo.findOneBy({ id: body.courseId });
+  // enrollment.service.ts
 
-    if (!course)
-      throw new NotFoundException(
-        `No course found for this id ${body.courseId}`,
-      );
-
-    // Check if user is already enrolled in this course (enrollment already exist)
-    const enrollmentExists = await this.enrollmentRepo.findOne({
-      where: { user: { id: user.id }, course: { id: body.courseId } },
+  //Will be called in paymentService (inside handleWebhook) when payment is success
+  async createEnrollmentAfterPayment(user: User, course: Course) {
+    const existing = await this.enrollmentRepo.findOne({
+      where: { user: { id: user.id }, course: { id: course.id } },
     });
-    if (enrollmentExists)
-      throw new ConflictException(
-        `User with id ${user.id} already enrolled in course ${course.id}`,
-      );
+    if (existing) return existing; // already enrolled
 
-    // Verify PaymentStatus is success (ignore this step for now)
+    const enrollment = this.enrollmentRepo.create({
+      user,
+      course,
+      paymentStatus: PaymentStatus.SUCCESS,
+    });
 
-    // Save the enrollment and return it.
-    const enrollment = this.enrollmentRepo.create({ user, course });
     return await this.enrollmentRepo.save(enrollment);
   }
 
@@ -123,13 +114,20 @@ export class EnrollmentService {
     });
   }
 
-  async updateEnrollmentStatus(enrollmentId:number ,body: UpdateEnrollmentStatusDto){
+  async updateEnrollmentStatus(
+    enrollmentId: number,
+    body: UpdateEnrollmentStatusDto,
+  ) {
     //get enrollment
-    const enrollment= await this.enrollmentRepo.findOneBy({id:enrollmentId});
-    if(!enrollment)
-      throw new NotFoundException(`No enrollment found for this id ${enrollmentId}`);
+    const enrollment = await this.enrollmentRepo.findOneBy({
+      id: enrollmentId,
+    });
+    if (!enrollment)
+      throw new NotFoundException(
+        `No enrollment found for this id ${enrollmentId}`,
+      );
 
-    enrollment.paymentStatus= body.status;
+    enrollment.paymentStatus = body.status;
     return await this.enrollmentRepo.save(enrollment);
   }
 }
