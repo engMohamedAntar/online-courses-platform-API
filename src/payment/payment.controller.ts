@@ -1,11 +1,22 @@
 // payment.controller.ts
-import { Controller, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Course } from '../course/course.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guards';
 
 @Controller('payment')
 export class PaymentController {
@@ -16,28 +27,22 @@ export class PaymentController {
   ) {}
 
   // ✅ Step 1: Create Payment + Checkout Session
-  @UseGuards(AuthGuard('jwt')) // protect it if user must be logged in
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('student')
   @Post(':courseId')
   async createCheckoutSession(@Param('courseId') courseId: number, @Req() req) {
-    const userId = req.user.id; // assuming JWT adds this
-    const user = await this.userRepo.findOneBy({ id: userId });
+    //Get user and course and validate their existance
+    const user = await this.userRepo.findOneBy({ id: req.user.id });
     const course = await this.courseRepo.findOneBy({ id: courseId });
-
     if (!user || !course) {
-      throw new Error('Invalid user or course');
+      throw new NotFoundException('user or course not found');
     }
 
     // Create payment record
     const payment = await this.paymentService.createPayment(user, course);
 
     // Create Stripe session
-    const session = await this.paymentService.createSession(
-      payment.id,
-      user,
-      course,
-    );
-
-    return { url: session.url }; // return session url to frontend
+    return await this.paymentService.createSession(payment.id, user, course);
   }
 
   // ✅ Step 2: Stripe Webhook
@@ -50,5 +55,14 @@ export class PaymentController {
       console.error('Webhook error:', err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
+  }
+
+  @Get('success')
+  successPage(){
+    return 'Payment is success'
+  }
+  @Get('cancel')
+  cancelPage(){
+    return 'Payment canceled'
   }
 }

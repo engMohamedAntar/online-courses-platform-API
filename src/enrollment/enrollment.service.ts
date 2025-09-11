@@ -92,6 +92,7 @@ export class EnrollmentService {
     //get enrollmets of the course and return it.
     return await this.enrollmentRepo.find({
       where: { course: { id: courseId } },
+      relations: ['user']
     });
   }
 

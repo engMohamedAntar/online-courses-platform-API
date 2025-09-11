@@ -45,7 +45,7 @@ export class PaymentService {
       ],
       mode: 'payment',
       success_url: `http://localhost:3000/payment/success`,
-      cancel_url: `http://localhost:3000/payment/success`,
+      cancel_url: `http://localhost:3000/payment/cancel`,
       client_reference_id: paymentId.toString(),
       customer_email: user.email,
     });
