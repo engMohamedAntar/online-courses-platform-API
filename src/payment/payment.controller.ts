@@ -1,18 +1,10 @@
 // payment.controller.ts
-import {
-  Controller,
-  Param,
-  Post,
-  Req,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Course } from '../course/course.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Payment } from './payment.entity';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('payment')
@@ -21,11 +13,10 @@ export class PaymentController {
     private readonly paymentService: PaymentService,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
     @InjectRepository(Course) private readonly courseRepo: Repository<Course>,
-    @InjectRepository(Payment) private readonly paymentRepo: Repository<Payment>,
   ) {}
 
   // ✅ Step 1: Create Payment + Checkout Session
-  @UseGuards(AuthGuard) // protect it if user must be logged in
+  @UseGuards(AuthGuard('jwt')) // protect it if user must be logged in
   @Post(':courseId')
   async createCheckoutSession(@Param('courseId') courseId: number, @Req() req) {
     const userId = req.user.id; // assuming JWT adds this
@@ -49,7 +40,7 @@ export class PaymentController {
     return { url: session.url }; // return session url to frontend
   }
 
-  // ✅ Step 2: Stripe Webhook (no auth guard!)
+  // ✅ Step 2: Stripe Webhook
   @Post('webhook')
   async stripeWebhook(@Req() req, @Res() res) {
     try {
@@ -60,5 +51,4 @@ export class PaymentController {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
   }
-
 }

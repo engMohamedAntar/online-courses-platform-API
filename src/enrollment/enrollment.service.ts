@@ -6,10 +6,9 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Enrollment, PaymentStatus } from './enrollment.entity';
 import { Repository } from 'typeorm';
-import { User, UserRole } from 'src/user/user.entity';
-import { Course } from 'src/course/course.entity';
-import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
-import { Payment } from 'src/payment/payment.entity';
+import { User, UserRole } from '../user/user.entity';
+import { Course } from '../course/course.entity';
+import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto'; 
 
 //enrollment.service
 @Injectable()
@@ -21,8 +20,6 @@ export class EnrollmentService {
     private userRepo: Repository<User>,
     @InjectRepository(Course)
     private courseRepo: Repository<Course>,
-    @InjectRepository(Payment)
-    private paymentRepo: Repository<Payment>,
   ) {}
 
   // enrollment.service.ts

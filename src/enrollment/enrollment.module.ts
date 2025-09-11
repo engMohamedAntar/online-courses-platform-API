@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { EnrollmentService } from './enrollment.service';
 import { EnrollmentController } from './enrollment.controller';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user/user.module';
 
 //enrollment.module
 @Module({
@@ -10,4 +10,4 @@ import { UserModule } from 'src/user/user.module';
   controllers: [EnrollmentController],
   exports: [EnrollmentService]
 })
-export class EnrollmentModule {}
+export class EnrollmentModule {} 

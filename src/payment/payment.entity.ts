@@ -1,3 +1,5 @@
+//payment.entity.ts
+
 import {
   Entity,
   PrimaryGeneratedColumn,
