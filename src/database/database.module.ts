@@ -22,7 +22,7 @@ import { Payment } from 'src/payment/payment.entity';
         database: configService.get('DB_NAME'),
         entities: [User, Course, Lesson, Enrollment, Payment],
         synchronize: true,
-        ssl: { rejectUnauthorized: false }, // required for Supabase
+        // ssl: { rejectUnauthorized: false }, // required for Supabase
       }),
     }),
   ],
