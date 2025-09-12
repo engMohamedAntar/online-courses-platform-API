@@ -15,10 +15,10 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guards';
 
-//@Roles('admin')
 
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles('admin')
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
