@@ -13,7 +13,7 @@ import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from './dto/createUser.dto';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RolesGuard } from 'src/common/guards/roles.guards';
+import { RolesGuard } from '../common/guards/roles.guards';
 
 @UseGuards(AuthGuard('jwt'))
 // @Roles('admin') , RolesGuard
