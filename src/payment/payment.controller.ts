@@ -50,6 +50,8 @@ export class PaymentController {
   @Post('webhook')
   async stripeWebhook(@Req() req) {
     try {
+      console.log('entered the webhook controller');
+      
       return await this.paymentService.handleWebhook(req);
     } catch (err) {
       throw new Error(`Webhook Error: ${err.message}`)
