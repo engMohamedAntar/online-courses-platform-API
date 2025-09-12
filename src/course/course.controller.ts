@@ -15,9 +15,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateCourseDto } from './dtos/updateCourse.dto';
-// @Controller('course')
 
 //course.controller.ts
+@Controller('course')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class CourseController {
   constructor(private courseService: CourseService) {}
