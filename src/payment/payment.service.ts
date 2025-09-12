@@ -44,8 +44,8 @@ export class PaymentService {
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:3000/payment/success`,
-      cancel_url: `http://localhost:3000/payment/cancel`,
+      success_url: `online-course-platform-api.vercel.app/payment/success`,
+      cancel_url: `honline-course-platform-api.vercel.app/payment/cancel`,
       client_reference_id: paymentId.toString(),
       customer_email: user.email,
     });
