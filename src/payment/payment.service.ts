@@ -32,6 +32,8 @@ export class PaymentService {
 
   //Step 2: Create a Stripe checkout session (Use the paymentId as the client_reference_id)
   async createSession(paymentId: number, user: User, course: Course) {
+    console.log('before executing createSession body');
+    
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -49,6 +51,7 @@ export class PaymentService {
       client_reference_id: paymentId.toString(),
       customer_email: user.email,
     });
+    console.log('after executing createSession body');
 
     return session;
   }
