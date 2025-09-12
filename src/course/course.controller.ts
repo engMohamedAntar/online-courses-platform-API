@@ -12,13 +12,13 @@ import {
 } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { RolesGuard } from 'src/common/guards/roles.guards';
+import { Roles } from '../common/decorators/roles.decorator';
+import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateCourseDto } from './dtos/updateCourse.dto';
+// @Controller('course')
 
 //course.controller.ts
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Controller('course')
 export class CourseController {
   constructor(private courseService: CourseService) {}
 
