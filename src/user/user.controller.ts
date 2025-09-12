@@ -15,8 +15,9 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guards';
 
-@UseGuards(AuthGuard('jwt'))
 // @Roles('admin') , RolesGuard
+
+@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
