@@ -31,9 +31,7 @@ export class PaymentService {
   }
 
   //Step 2: Create a Stripe checkout session (Use the paymentId as the client_reference_id)
-  async createSession(paymentId: number, user: User, course: Course) {
-    console.log('before executing createSession body');
-    
+  async createSession(paymentId: number, user: User, course: Course) {    
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -46,12 +44,11 @@ export class PaymentService {
         },
       ],
       mode: 'payment',
-      success_url: `online-course-platform-api.vercel.app/payment/success`,
-      cancel_url: `online-course-platform-api.vercel.app/payment/cancel`,
+      success_url: `https://online-course-platform-api.vercel.app/payment/success`,
+      cancel_url: `https://online-course-platform-api.vercel.app/payment/cancel`,
       client_reference_id: paymentId.toString(),
       customer_email: user.email,
     });
-    console.log('after executing createSession body');
 
     return session;
   }
