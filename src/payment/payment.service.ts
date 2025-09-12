@@ -26,7 +26,8 @@ export class PaymentService {
       provider: PaymentProvider.STRIPE,
       status: PaymentStatus.PENDING,
     });
-
+    console.log('created payment with status pending');
+    
     return await this.paymentRepo.save(payment);
   }
 
@@ -55,6 +56,8 @@ export class PaymentService {
 
   //Step 3: Handle Stripe webhook
   async handleWebhook(req: any) {
+    console.log('handledWebhook');
+    
     const sig = req.headers['stripe-signature'];
 
     let event;
@@ -89,6 +92,7 @@ export class PaymentService {
         payment.course,
       );
     }
+
     return { received: true };
   }
 }
