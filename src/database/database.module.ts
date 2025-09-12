@@ -13,15 +13,16 @@ import { Payment } from 'src/payment/payment.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-    useFactory: (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('HOST'),
         port: configService.get('DB_PORT'),
-        username: configService.get("DB_USER"), 
-        password: configService.get("DB_PASSWORD"),
-        database: configService.get("DB_NAME"),
-        entities: [User,Course, Lesson, Enrollment, Payment],
+        username: configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+        entities: [User, Course, Lesson, Enrollment, Payment],
         synchronize: true,
+        ssl: { rejectUnauthorized: false }, // required for Supabase
       }),
     }),
   ],
