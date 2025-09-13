@@ -25,9 +25,7 @@ export class PaymentService {
       currency: 'EGP',
       provider: PaymentProvider.STRIPE,
       status: PaymentStatus.PENDING,
-    });
-    console.log('created payment with status pending');
-    
+    });    
     return await this.paymentRepo.save(payment);
   }
 

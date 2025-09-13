@@ -17,6 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guards';
 
+//payment.controller.ts
 @Controller('payment')
 export class PaymentController {
   constructor(
@@ -27,7 +28,7 @@ export class PaymentController {
 
   // ✅ Step 1: Create Payment + Checkout Session
   // @UseGuards(AuthGuard('jwt'), RolesGuard)
-  // @Roles('student')
+  @Roles('student') 
   @Post(':courseId')
   async createCheckoutSession(@Param('courseId') courseId: number, @Req() req) {
     console.log('entered the createCheckoutSession controller');

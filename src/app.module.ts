@@ -9,6 +9,7 @@ import { LessonModule } from './lesson/lesson.module';
 import { EnrollmentModule } from './enrollment/enrollment.module';
 import { PaymentModule } from './payment/payment.module';
 
+//app.module.ts
 @Module({
   imports: [
     AuthModule,
