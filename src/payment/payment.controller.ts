@@ -29,11 +29,11 @@ export class PaymentController {
 
   // ✅ Step 1: Create Payment + Checkout Session
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('student') 
+  @Roles('student')
   @Post(':courseId')
   async createCheckoutSession(@Param('courseId') courseId: number, @Req() req) {
     console.log('entered the createCheckoutSession controller');
-    
+
     //Get user and course and validate their existance
     const user = await this.userRepo.findOneBy({ id: req.user.id });
     const course = await this.courseRepo.findOneBy({ id: courseId });
@@ -49,24 +49,29 @@ export class PaymentController {
   }
 
   // ✅ Step 2: Stripe Webhook
-  @Public()
+  @UseGuards()
   @Post('webhook')
   async stripeWebhook(@Req() req) {
+    console.log('HEADERS:', req.headers);
+    console.log('BODY TYPE:', typeof req.body);
+    console.log('USER:', req.user); // <-- if this logs undefined then some guard is still running
+    return { ok: true };
+
     try {
       console.log('entered the webhook controller');
-      
+
       return await this.paymentService.handleWebhook(req);
     } catch (err) {
-      throw new Error(`Webhook Error: ${err.message}`)
+      throw new Error(`Webhook Error: ${err.message}`);
     }
   }
 
   @Get('success')
-  successPage(){
-    return 'Payment is success'
+  successPage() {
+    return 'Payment is success';
   }
   @Get('cancel')
-  cancelPage(){
-    return 'Payment canceled'
+  cancelPage() {
+    return 'Payment canceled';
   }
 }
