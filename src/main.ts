@@ -11,14 +11,14 @@ async function bootstrap() {
   // For Stripe webhooks: the body must be raw
   app.use('/payment/webhook', bodyParser.raw({ type: 'application/json' }));
 // Mount a plain Express handler here
-  app.getHttpAdapter().getInstance().post('/payment/webhook', (req, res) => {
-    app.get(PaymentService).handleWebhook(req) // resolve your service
-      .then(result => res.send(result))
-      .catch(err => {
-        console.error(err);
-        res.status(400).send(`Webhook error: ${err.message}`);
-      });
-  });
+  // app.getHttpAdapter().getInstance().post('/payment/webhook', (req, res) => {
+  //   app.get(PaymentService).handleWebhook(req) // resolve your service
+  //     .then(result => res.send(result))
+  //     .catch(err => {
+  //       console.error(err);
+  //       res.status(400).send(`Webhook error: ${err.message}`);
+  //     });
+  // });
 
   app.useGlobalPipes(
     new ValidationPipe({
