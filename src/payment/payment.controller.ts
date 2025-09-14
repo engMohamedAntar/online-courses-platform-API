@@ -16,6 +16,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guards';
+import { Public } from '../common/decorators/public.decorator';
 
 //payment.controller.ts
 @Controller('payment')
@@ -48,6 +49,7 @@ export class PaymentController {
   }
 
   // ✅ Step 2: Stripe Webhook
+  @Public()
   @Post('webhook')
   async stripeWebhook(@Req() req) {
     try {

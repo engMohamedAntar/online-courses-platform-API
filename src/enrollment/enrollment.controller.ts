@@ -4,7 +4,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Patch,
+  Patch, 
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -14,7 +14,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
 
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+// @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('enrollment')
 export class EnrollmentController {
   constructor(private enrollmentService: EnrollmentService) {}
