@@ -47,22 +47,15 @@ export class PaymentController {
     return await this.paymentService.createSession(payment.id, user, course);
   }
 
-  // // ✅ Step 2: Stripe Webhook
-  // @Post('webhook')
-  // async stripeWebhook(@Req() req) {
-  //   console.log('HEADERS:', req.headers);
-  //   console.log('BODY TYPE:', typeof req.body);
-  //   console.log('USER:', req.user); // <-- if this logs undefined then some guard is still running
-  //   return { ok: true };
-
-  //   try {
-  //     console.log('entered the webhook controller');
-
-  //     return await this.paymentService.handleWebhook(req);
-  //   } catch (err) {
-  //     throw new Error(`Webhook Error: ${err.message}`);
-  //   }
-  // }
+  // ✅ Step 2: Stripe Webhook
+  @Post('webhook')
+  async stripeWebhook(@Req() req) {
+    try {
+      return await this.paymentService.handleWebhook(req);
+    } catch (err) {
+      throw new Error(`Webhook Error: ${err.message}`);
+    }
+  }
 
   @Get('success')
   successPage() {
