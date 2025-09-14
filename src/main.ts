@@ -8,17 +8,13 @@ import { PaymentService } from './payment/payment.service';
 //main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const expressApp = app.getHttpAdapter().getInstance();
   // For Stripe webhooks: the body must be raw
-  app.use('/payment/webhook', bodyParser.raw({ type: 'application/json' }));
-  
-// Mount a plain Express handler here
-  app.getHttpAdapter().getInstance().post('/payment/webhook', (req, res) => {
-    app.get(PaymentService).handleWebhook(req) // resolve your service
-      .then(result => res.send(result))
-      .catch(err => {
-        console.error(err);
-        res.status(400).send(`Webhook error: ${err.message}`);
-      });
+  expressApp.post('/payment/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
+    app.get(PaymentService).handleWebhook(req)
+      .then(result => res.status(200).send(result))
+      .catch(err => res.status(400).send(`Webhook error: ${err.message}`));
   });
 
   app.useGlobalPipes(
