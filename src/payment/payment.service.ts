@@ -49,6 +49,7 @@ export class PaymentService {
       customer_email: user.email,
     });
 
+    console.log('createSession');
     return session;
   }
 

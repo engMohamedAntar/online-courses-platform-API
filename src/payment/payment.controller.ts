@@ -32,8 +32,6 @@ export class PaymentController {
   @Roles('student')
   @Post(':courseId')
   async createCheckoutSession(@Param('courseId') courseId: number, @Req() req) {
-    console.log('entered the createCheckoutSession controller');
-
     //Get user and course and validate their existance
     const user = await this.userRepo.findOneBy({ id: req.user.id });
     const course = await this.courseRepo.findOneBy({ id: courseId });
@@ -44,6 +42,8 @@ export class PaymentController {
     // Create payment record
     const payment = await this.paymentService.createPayment(user, course);
 
+    console.log('createCheckoutSession');
+    
     // Create Stripe session
     return await this.paymentService.createSession(payment.id, user, course);
   }
