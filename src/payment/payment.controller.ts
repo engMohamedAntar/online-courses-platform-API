@@ -16,7 +16,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guards';
-import { Public } from '../common/decorators/public.decorator';
 
 //payment.controller.ts
 @Controller('payment')
@@ -48,23 +47,22 @@ export class PaymentController {
     return await this.paymentService.createSession(payment.id, user, course);
   }
 
-  // ✅ Step 2: Stripe Webhook
-  @UseGuards()
-  @Post('webhook')
-  async stripeWebhook(@Req() req) {
-    console.log('HEADERS:', req.headers);
-    console.log('BODY TYPE:', typeof req.body);
-    console.log('USER:', req.user); // <-- if this logs undefined then some guard is still running
-    return { ok: true };
+  // // ✅ Step 2: Stripe Webhook
+  // @Post('webhook')
+  // async stripeWebhook(@Req() req) {
+  //   console.log('HEADERS:', req.headers);
+  //   console.log('BODY TYPE:', typeof req.body);
+  //   console.log('USER:', req.user); // <-- if this logs undefined then some guard is still running
+  //   return { ok: true };
 
-    try {
-      console.log('entered the webhook controller');
+  //   try {
+  //     console.log('entered the webhook controller');
 
-      return await this.paymentService.handleWebhook(req);
-    } catch (err) {
-      throw new Error(`Webhook Error: ${err.message}`);
-    }
-  }
+  //     return await this.paymentService.handleWebhook(req);
+  //   } catch (err) {
+  //     throw new Error(`Webhook Error: ${err.message}`);
+  //   }
+  // }
 
   @Get('success')
   successPage() {
