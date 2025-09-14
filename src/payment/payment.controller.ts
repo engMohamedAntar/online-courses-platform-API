@@ -47,16 +47,6 @@ export class PaymentController {
     return await this.paymentService.createSession(payment.id, user, course);
   }
 
-  // ✅ Step 2: Stripe Webhook
-  @Post('webhook')
-  async stripeWebhook(@Req() req) {
-    try {
-      return await this.paymentService.handleWebhook(req);
-    } catch (err) {
-      throw new Error(`Webhook Error: ${err.message}`);
-    }
-  }
-
   @Get('success')
   successPage() {
     return 'Payment is success';
