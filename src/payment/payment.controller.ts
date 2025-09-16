@@ -40,8 +40,6 @@ export class PaymentController {
 
     // Create payment record
     const payment = await this.paymentService.createPayment(user, course);
-
-    console.log('createCheckoutSession');
     
     // Create Stripe session
     return await this.paymentService.createSession(payment.id, user, course);
