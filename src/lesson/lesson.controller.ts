@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { LessonService } from './lesson.service';
 import { CreateLessonDto } from './dto/createLessonDto';
 import { Roles } from 'src/common/decorators/roles.decorator';
@@ -16,6 +16,12 @@ export class LessonController {
     async createLesson(@Body() body: CreateLessonDto, @Req() req){
         return await this.lessonService.createLesson(body, req.user.id);
     }
+
+    @Get('/:id/video')
+    async getLessonVideo(@Param('id', ParseIntPipe) lessonId:number, @Request() req ){
+        return await this.lessonService.getLessonVideo(lessonId, req.user.id);
+    }
+
 
     @Get('/course/:courseId')
     async getLessonsForCourse(@Param('courseId', ParseIntPipe) courseId:number ){

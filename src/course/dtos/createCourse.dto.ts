@@ -11,7 +11,7 @@ export class CreateCourseDto {
 
     @IsOptional()
     @IsString()
-    thumbnailUrl: string;
+    thumbnailKey: string;
 
     @IsNumber()
     price: number;

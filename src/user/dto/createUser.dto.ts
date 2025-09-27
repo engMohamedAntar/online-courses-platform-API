@@ -9,7 +9,9 @@ export class CreateUserDto {
   @IsString({ message: 'name must be string' })
   @MinLength(6, { message: 'password should be at least 6 digits' })
   password: string;
-  
+  @IsOptional()
+  @IsString()
+  profileImageKey: string;
   @IsOptional()
   @IsString({ message: 'role must be string' })
   role: UserRole;

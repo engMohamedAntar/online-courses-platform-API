@@ -8,18 +8,20 @@ import { CourseModule } from './course/course.module';
 import { LessonModule } from './lesson/lesson.module';
 import { EnrollmentModule } from './enrollment/enrollment.module';
 import { PaymentModule } from './payment/payment.module';
+import { UploadModule } from './upload/upload.module';
 
 //app.module.ts
 @Module({
   imports: [
     AuthModule,
     DatabaseModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({isGlobal: true}),
     UserModule,
     CourseModule,
     LessonModule,
     EnrollmentModule,
     PaymentModule,
+    UploadModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },

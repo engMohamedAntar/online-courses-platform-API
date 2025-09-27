@@ -7,10 +7,11 @@ import { Course } from 'src/course/course.entity';
 import { Lesson } from 'src/lesson/lesson.entity';
 import { Enrollment } from 'src/enrollment/enrollment.entity';
 import { Payment } from 'src/payment/payment.entity';
+import { UploadModule } from 'src/upload/upload.module';
 
 //user.module.ts
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, Payment])],
+  imports: [TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, Payment]), UploadModule],
   providers: [UserService],
   exports: [TypeOrmModule],
   controllers: [UserController]

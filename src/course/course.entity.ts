@@ -23,7 +23,7 @@ export class Course {
   description: string;
 
   @Column({ nullable: true })
-  thumbnailUrl: string;
+  thumbnailKey: string;
 
   @Column({ default: 0 })
   price: number;

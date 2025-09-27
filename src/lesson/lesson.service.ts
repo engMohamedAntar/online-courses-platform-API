@@ -10,14 +10,18 @@ import { CreateLessonDto } from './dto/createLessonDto';
 import { User } from 'src/user/user.entity';
 import { Course } from 'src/course/course.entity';
 import { UpdateLessonDto } from './dto/updateLessonDto';
+import { Enrollment } from 'src/enrollment/enrollment.entity';
+import { UploadService } from 'src/upload/upload.service';
 
 //lesson.service.ts
 @Injectable()
 export class LessonService {
   constructor(
+    private uploadService: UploadService,
     @InjectRepository(Lesson) private lessonRepo: Repository<Lesson>,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Course) private courseRepo: Repository<Course>,
+    @InjectRepository(Enrollment) private enrollmentRepo: Repository<Enrollment>,
   ) {}
 
   async createLesson(body: CreateLessonDto, userId: number) {
@@ -48,10 +52,34 @@ export class LessonService {
     return {
       id: savedLesson.id,
       title: savedLesson.title,
-      videoUrl: savedLesson.videoUrl,
+      videoKey: savedLesson.videoKey,
       description: savedLesson.description,
       courseId: course.id,
     };
+  }
+
+  async getLessonVideo(lessonId: number, userId: number) {
+    // 1. Fetch lesson from DB
+    const lesson = await this.lessonRepo.findOne({
+      where: { id: lessonId },
+      relations: ['course'],
+    });
+    if (!lesson)
+      throw new NotFoundException(`No lesson found for this id ${lessonId}`);
+
+    // 2. Check if user is enrolled in the course
+    const enrollment = await this.enrollmentRepo.findOne({
+      where: {
+        user: { id: userId },
+        course: { id: lesson.course.id },
+      },
+    });
+    if (!enrollment) throw new NotFoundException(`You are not enrolled`);
+
+    // 3. Generate signed URL from lesson.videoKey
+    const url = await this.uploadService.getDownloadSignedUrl(lesson.videoKey, 3600);
+
+    return { url };
   }
 
   async getLessonsForCourse(courseId: number) {

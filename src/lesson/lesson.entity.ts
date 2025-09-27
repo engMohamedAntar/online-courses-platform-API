@@ -11,7 +11,7 @@ export class Lesson {
     title: string;
 
     @Column({nullable: true})
-    videoUrl: string;
+    videoKey: string;
 
     @Column({type: 'text', nullable: true})
     description: string;

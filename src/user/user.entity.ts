@@ -35,7 +35,7 @@ export class User {
   @Column({ enum: UserRole, default: UserRole.STUDENT })
   role: UserRole;
   @Column({ nullable: true })
-  profileImage: string;
+  profileImageKey: string;
 
   @OneToMany(() => Course, (course) => course.instructor) 
   courses: [Course];

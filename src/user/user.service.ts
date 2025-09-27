@@ -8,12 +8,14 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
+import { UploadService } from 'src/upload/upload.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private uploadService: UploadService,
   ) {}
 
   async getAllUsers() {
@@ -53,5 +55,20 @@ export class UserService {
   
   async removeUser(id: number) {
     await this.usersRepository.delete({ id });
+  }
+
+  async getMe(userId: number) {
+    const user= await this.usersRepository.findOneBy({id: userId});
+    if(!user) throw new NotFoundException('No user found for this id');
+    const downloadSignedUrl= user?.profileImageKey? await this.uploadService.getDownloadSignedUrl(user.profileImageKey, 3600): null;
+    return {...user, downloadSignedUrl};
+  }
+
+  async updateMe(userId: number, body: Partial<User>) {
+    const user= await this.usersRepository.findOneBy({id:userId});
+    if(!user)
+      throw new NotFoundException("No user foun for this id");
+    const updateUser= {...user, ...body};
+    return await this.usersRepository.save(updateUser);
   }
 }

@@ -3,8 +3,9 @@ import { IsInt, IsOptional, IsString } from "class-validator";
 export class CreateLessonDto{
     @IsString()
     title: string;
+    
     @IsString()
-    videoUrl: string;
+    videoKey: string;
 
     @IsOptional()
     @IsString()

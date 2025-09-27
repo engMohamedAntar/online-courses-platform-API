@@ -7,7 +7,7 @@ export class UpdateLessonDto{
 
     @IsOptional()
     @IsString()
-    videoUrl: string;
+    videoKey: string;
 
     @IsOptional()
     @IsString()

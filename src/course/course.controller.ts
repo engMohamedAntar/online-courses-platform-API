@@ -8,23 +8,37 @@ import {
   Patch,
   Post,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateCourseDto } from './dtos/updateCourse.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadService } from 'src/upload/upload.service';
 
 //course.controller.ts
 @Controller('course')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class CourseController {
-  constructor(private courseService: CourseService) {}
+  constructor(
+    private courseService: CourseService,
+    private uploadService: UploadService,
+  ) {}
 
   @Roles('instructor')
   @Post()
-  async createCourse(@Body() body, @Req() req) {
+  @UseInterceptors(FileInterceptor('thumbnail'))
+  async createCourse(@Body() body, @Req() req, @UploadedFile() file: Express.Multer.File) {    
+    //define where to upload the file (fileKey)
+    const fileName = this.uploadService.buildFileKey('courses', file.originalname);
+    //upload the file and get its key
+    const key = await this.uploadService.upload(file, fileName);    
+    //put the key the body and create the course
+    body.thumbnailKey = key;
     return await this.courseService.createCourse(body, req.user.id);
   }
 
@@ -51,6 +65,10 @@ export class CourseController {
   @Roles('instructor', 'admin')
   @Delete(':id')
   async deleteCourse(@Param('id', ParseIntPipe) id: number, @Req() req) {
-    return await this.courseService.deleteCourse(id, req.user.id, req.user.role);
+    return await this.courseService.deleteCourse(
+      id,
+      req.user.id,
+      req.user.role,
+    );
   }
 }
