@@ -48,12 +48,14 @@ export class UploadService {
 
   async getUploadSignedUrl(fileName: string, contentType: string) {
     try {
-      const key = `lessons/${randomUUID()}-${fileName}`;
+      const key= this.buildFileKey('lessons', fileName);
       const command = new PutObjectCommand({
         Bucket: this.configService.get('AWS_BUCKET'),
         Key: key,
         ContentType: contentType,
       });
+      console.log(command); 
+      
       const uploadUrl = await getSignedUrl(this.s3Client, command, {
         expiresIn: 3600,
       });

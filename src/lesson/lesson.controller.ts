@@ -18,7 +18,7 @@ export class LessonController {
     }
 
     @Get('/:id/video')
-    async getLessonVideo(@Param('id', ParseIntPipe) lessonId:number, @Request() req ){
+    async getLessonVideo(@Param('id', ParseIntPipe) lessonId:number, @Request() req ){        
         return await this.lessonService.getLessonVideo(lessonId, req.user.id);
     }
 
