@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { User, UserRole } from '../user/user.entity';
 import { Course } from '../course/course.entity';
 import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto'; 
+import { NotificationsService } from '../notifications/notifications.service';
 
 //enrollment.service
 @Injectable()
@@ -20,14 +21,13 @@ export class EnrollmentService {
     private userRepo: Repository<User>,
     @InjectRepository(Course)
     private courseRepo: Repository<Course>,
+    private notificationsService: NotificationsService
   ) {}
 
   // enrollment.service.ts
 
   //Will be called in paymentService (inside handleWebhook) when payment is success
   async createEnrollmentAfterPayment(user: User, course: Course) {
-    console.log('entered the createEnrollment route');
-    
     const existing = await this.enrollmentRepo.findOne({
       where: { user: { id: user.id }, course: { id: course.id } },
     });
@@ -38,7 +38,7 @@ export class EnrollmentService {
       course,
       paymentStatus: PaymentStatus.SUCCESS,
     });
-
+    await this.notificationsService.sendMail({subject:'first email', message:'This is the email content dude'});
     return await this.enrollmentRepo.save(enrollment);
   }
 
