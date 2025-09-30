@@ -56,6 +56,7 @@ export class PaymentService {
   //Step 3: Handle Stripe webhook
   async handleWebhook(req: any) {
     console.log('HandleWebhook');
+    console.log('HandleWebhook222222222');
     
     const sig = req.headers['stripe-signature'];
 
