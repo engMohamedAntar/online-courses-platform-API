@@ -43,7 +43,7 @@ export class EnrollmentService {
     await this.notificationsService.sendMail({
       to: user.email,
       subject: 'Enrollment Status',
-      message: `You are now enrolled in ${course.title}`,
+      message: `Hi, ${user.name}. You have successfully enrolled in course${course.title}`,
     });
     return await this.enrollmentRepo.save(enrollment);
   }

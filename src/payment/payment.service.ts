@@ -63,7 +63,6 @@ export class PaymentService {
 
     try {
       console.log('entered the try');
-      
       event = stripe.webhooks.constructEvent(
         req.body,
         sig,
