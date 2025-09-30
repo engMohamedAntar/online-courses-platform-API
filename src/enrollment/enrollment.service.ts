@@ -8,7 +8,7 @@ import { Enrollment, PaymentStatus } from './enrollment.entity';
 import { Repository } from 'typeorm';
 import { User, UserRole } from '../user/user.entity';
 import { Course } from '../course/course.entity';
-import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto'; 
+import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
 import { NotificationsService } from '../notifications/notifications.service';
 
 //enrollment.service
@@ -21,7 +21,7 @@ export class EnrollmentService {
     private userRepo: Repository<User>,
     @InjectRepository(Course)
     private courseRepo: Repository<Course>,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
   ) {}
 
   // enrollment.service.ts
@@ -38,7 +38,11 @@ export class EnrollmentService {
       course,
       paymentStatus: PaymentStatus.SUCCESS,
     });
-    await this.notificationsService.sendMail({subject:'first email', message:'This is the email content dude'});
+    await this.notificationsService.sendMail({
+      to: user.email,
+      subject: 'Enrollment Status',
+      message: `You are now enrolled in ${course.title}`,
+    });
     return await this.enrollmentRepo.save(enrollment);
   }
 
@@ -94,7 +98,7 @@ export class EnrollmentService {
     //get enrollmets of the course and return it.
     return await this.enrollmentRepo.find({
       where: { course: { id: courseId } },
-      relations: ['user']
+      relations: ['user'],
     });
   }
 
