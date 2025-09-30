@@ -72,6 +72,8 @@ export class PaymentService {
     }
 
     if (event.type === 'checkout.session.completed') {
+      console.log('entered the if condition');
+      
       const session = event.data.object;
       const paymentId = Number(session.client_reference_id);
 
@@ -85,6 +87,8 @@ export class PaymentService {
       payment.status = PaymentStatus.SUCCESS;
       await this.paymentRepo.save(payment);
 
+      console.log('reached createEnrollmentAfterPayment');
+      
       // ✅ auto-create enrollment here
       await this.enrollmentService.createEnrollmentAfterPayment(
         payment.user,
