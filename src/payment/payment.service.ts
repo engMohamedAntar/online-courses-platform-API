@@ -56,19 +56,22 @@ export class PaymentService {
   //Step 3: Handle Stripe webhook
   async handleWebhook(req: any) {
     console.log('HandleWebhook');
-    console.log('HandleWebhook222222222');
     
     const sig = req.headers['stripe-signature'];
 
     let event;
 
     try {
+      console.log('entered the try');
+      
       event = stripe.webhooks.constructEvent(
         req.body,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET,
       );
     } catch (err) {
+      console.log('entered the catch');
+      
       throw new Error(`Stripe Error: ${err}`);
     }
     console.log('before the if condition');
