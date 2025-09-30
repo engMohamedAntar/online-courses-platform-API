@@ -11,9 +11,7 @@ async function bootstrap() {
 
   const expressApp = app.getHttpAdapter().getInstance();
   // For Stripe webhooks: the body must be raw
-  expressApp.post('/payment/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
-    console.log('Entered the route');
-    
+  expressApp.post('/payment/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {    
     app.get(PaymentService).handleWebhook(req)
       .then(result => res.status(200).send(result))
       .catch(err => res.status(400).send(`Webhook error: ${err.message}`));

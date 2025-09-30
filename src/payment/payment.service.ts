@@ -49,35 +49,27 @@ export class PaymentService {
       customer_email: user.email,
     });
 
-    console.log('createSession');
     return session;
   }
 
   //Step 3: Handle Stripe webhook
   async handleWebhook(req: any) {
-    console.log('HandleWebhook');
     
     const sig = req.headers['stripe-signature'];
 
     let event;
 
     try {
-      console.log('entered the try');
       event = stripe.webhooks.constructEvent(
         req.body,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET,
       );
-    } catch (err) {
-      console.log('entered the catch');
-      
+    } catch (err) {      
       throw new Error(`Stripe Error: ${err}`);
     }
-    console.log('before the if condition');
     
-    if (event.type === 'checkout.session.completed') {
-      console.log('entered the if condition');
-      
+    if (event.type === 'checkout.session.completed') {      
       const session = event.data.object;
       const paymentId = Number(session.client_reference_id);
 
@@ -90,8 +82,6 @@ export class PaymentService {
       // update payment
       payment.status = PaymentStatus.SUCCESS;
       await this.paymentRepo.save(payment);
-
-      console.log('reached createEnrollmentAfterPayment');
       
       // ✅ auto-create enrollment here
       await this.enrollmentService.createEnrollmentAfterPayment(
