@@ -70,7 +70,8 @@ export class PaymentService {
     } catch (err) {
       throw new Error(`Stripe Error: ${err}`);
     }
-
+    console.log('before the if condition');
+    
     if (event.type === 'checkout.session.completed') {
       console.log('entered the if condition');
       
