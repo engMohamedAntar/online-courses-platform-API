@@ -100,8 +100,8 @@ npm run start:dev
   Content-Type: application/json
   
   {
-    "name": "John Doe",
-    "email": "john@example.com",
+    "name": "Mohamed Antar",
+    "email": "antar@example.com",
     "password": "securepassword"
   }
 
@@ -122,19 +122,12 @@ npm run start:dev
   Content-Type: multipart/form-data
   Authorization: Bearer <token>
   
-  Body:
-    title: "NestJS Masterclass"
-    description: "Learn NestJS from scratch"
-    thumbnail: <file>
-
-# Example: Enroll in a Course (after payment)
-  POST /enrollments
-  Authorization: Bearer <token>
-  
-  {
-    "courseId": 1,
-    "paymentIntentId": "pi_123456789"
-  }
+  Body: {
+      title: "NestJs Course"
+      description: "lablabla"
+      thumbnail: <file>
+      price: 500
+    }
 
 # Example: Upload Lesson Video (signed URL)
   GET /upload/signed-url?fileName=lesson1.mp4&contentType=video/mp4
@@ -148,13 +141,6 @@ npm run start:dev
 
 # Example: Send Notification Email
   POST /notifications/mail
-  Content-Type: application/json
-  
-  {
-    "to": "student@example.com",
-    "subject": "Enrollment Successful",
-    "message": "Welcome to the course!"
-  }
    
 ```
 
