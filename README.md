@@ -59,3 +59,24 @@ It supports authentication, course management, enrollments, lessons, payments, f
 
 ## 📂 Project Structure
 
+src/
+├── auth/ # Authentication & authorization
+├── user/ # User entity & profile management
+├── course/ # Course creation & management
+├── enrollment/ # Course enrollments
+├── lesson/ # Lessons within courses
+├── payment/ # Stripe payments
+├── upload/ # File uploads (AWS S3)
+├── notification/ # Email notifications
+├── database/ # Database module (TypeORM config)
+└── main.ts # App entry point
+
+## ⚙️ Setup & Installation
+
+1. **Clone repo**
+   ```bash
+   git clone https://github.com/engMohamedAntar/online-courses-platform-api.git
+   cd online-courses-platform-api
+
+   
+
