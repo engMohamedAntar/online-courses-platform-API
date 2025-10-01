@@ -138,9 +138,12 @@ npm run start:dev
     "uploadUrl": "https://s3.amazonaws.com/...",
     "key": "lessons/<uuid>-lesson1.mp4"
   }
-
-# Example: Send Notification Email
-  POST /notifications/mail
    
 ```
-
+##Contributing
+Follow these steps to contribute:
+  1- Fork the repository
+  2- Create a new branch: git checkout -b feature/your-feature-name
+  3- Commit your changes: git commit -m 'Add your message'
+  4- Push to the branch: git push origin feature/your-feature-name
+  5- Submit a pull request
