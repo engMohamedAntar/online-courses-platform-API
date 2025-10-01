@@ -58,7 +58,7 @@ It supports authentication, course management, enrollments, lessons, payments, f
 ---
 
 ## 📂 Project Structure
-
+```bash
 src/
 ├── auth/ # Authentication & authorization
 ├── user/ # User entity & profile management
@@ -70,7 +70,7 @@ src/
 ├── notification/ # Email notifications
 ├── database/ # Database module (TypeORM config)
 └── main.ts # App entry point
-
+```
 ## ⚙️ Setup & Installation
   ```bash
 # Clone repo
