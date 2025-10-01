@@ -78,5 +78,9 @@ src/
    git clone https://github.com/engMohamedAntar/online-courses-platform-api.git
    cd online-courses-platform-api
 
-   
+2. **Install dependencies**
+```bash
+npm install
+
+
 
