@@ -54,7 +54,6 @@ export class UploadService {
         Key: key,
         ContentType: contentType,
       });
-      console.log(command); 
       
       const uploadUrl = await getSignedUrl(this.s3Client, command, {
         expiresIn: 3600,

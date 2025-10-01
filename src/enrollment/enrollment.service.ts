@@ -27,9 +27,7 @@ export class EnrollmentService {
   // enrollment.service.ts
 
   //Will be called in paymentService (inside handleWebhook) when payment is success
-  async createEnrollmentAfterPayment(user: User, course: Course) {
-    console.log('entered the createEnorllmentAfterPayment');
-    
+  async createEnrollmentAfterPayment(user: User, course: Course) {    
     const existing = await this.enrollmentRepo.findOne({
       where: { user: { id: user.id }, course: { id: course.id } },
     });

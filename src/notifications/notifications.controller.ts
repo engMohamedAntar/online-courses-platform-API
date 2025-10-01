@@ -1,9 +1,15 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
+import { Roles } from '../common/decorators/roles.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../common/guards/roles.guards';
 
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('notifications')
 export class NotificationsController {
   constructor(private notificationsService: NotificationsService) {}
+
+  @Roles('admin')
   @Post('mail')
   async sendMail() {
     const mail = await this.notificationsService.sendMail({
