@@ -96,65 +96,65 @@ Here are some example commands and requests to interact with the API:
 npm run start:dev
 
 # Example: User Signup
-POST /auth/signup
-Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "securepassword"
-}
+  POST /auth/signup
+  Content-Type: application/json
+  
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "securepassword"
+  }
 
 # Example: Login User
-POST /auth/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "securepassword"
-}
+  POST /auth/login
+  Content-Type: application/json
+  
+  {
+    "email": "john@example.com",
+    "password": "securepassword"
+  }
 
 # Example: Fetch All Courses
-GET /courses
+  GET /courses
 
 # Example: Create Course (Instructor only)
-POST /courses
-Content-Type: multipart/form-data
-Authorization: Bearer <token>
-
-Body:
-  title: "NestJS Masterclass"
-  description: "Learn NestJS from scratch"
-  thumbnail: <file>
+  POST /courses
+  Content-Type: multipart/form-data
+  Authorization: Bearer <token>
+  
+  Body:
+    title: "NestJS Masterclass"
+    description: "Learn NestJS from scratch"
+    thumbnail: <file>
 
 # Example: Enroll in a Course (after payment)
-POST /enrollments
-Authorization: Bearer <token>
-
-{
-  "courseId": 1,
-  "paymentIntentId": "pi_123456789"
-}
+  POST /enrollments
+  Authorization: Bearer <token>
+  
+  {
+    "courseId": 1,
+    "paymentIntentId": "pi_123456789"
+  }
 
 # Example: Upload Lesson Video (signed URL)
-GET /upload/signed-url?fileName=lesson1.mp4&contentType=video/mp4
-Authorization: Bearer <token>
-
-Response:
-{
-  "uploadUrl": "https://s3.amazonaws.com/...",
-  "key": "lessons/<uuid>-lesson1.mp4"
-}
+  GET /upload/signed-url?fileName=lesson1.mp4&contentType=video/mp4
+  Authorization: Bearer <token>
+  
+  Response:
+  {
+    "uploadUrl": "https://s3.amazonaws.com/...",
+    "key": "lessons/<uuid>-lesson1.mp4"
+  }
 
 # Example: Send Notification Email
-POST /notifications/mail
-Content-Type: application/json
-
-{
-  "to": "student@example.com",
-  "subject": "Enrollment Successful",
-  "message": "Welcome to the course!"
-}
+  POST /notifications/mail
+  Content-Type: application/json
+  
+  {
+    "to": "student@example.com",
+    "subject": "Enrollment Successful",
+    "message": "Welcome to the course!"
+  }
    
 ```
 
