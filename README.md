@@ -81,9 +81,8 @@ src/
    ```bash
    npm install
    
-4. Configure environment variables
+3. Configure environment variables
   Create a .env file in root:
-  ```bash
   # App
   PORT=3000
   JWT_SECRET=your-secret
