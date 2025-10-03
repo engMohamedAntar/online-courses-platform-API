@@ -4,17 +4,17 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guards';
 
-@UseGuards(AuthGuard, RolesGuard)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('notifications')
 export class NotificationsController {
   constructor(private notificationsService: NotificationsService) {}
 
   @Roles('admin')
   @Post('mail')
-  async sendMail() {
+  async sendMail() {    
     const mail = await this.notificationsService.sendMail({
       to: 'aboantar852003@gmail.com',
-      subject: 'sendMail controller',
+      subject: 'sendMail controller hope',
       message:
         'This message is from the controller of sendMail POST notifications/mail',
     });

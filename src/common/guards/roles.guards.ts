@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core';
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
-
+  
   canActivate(context: ExecutionContext): boolean {
     //get the @public decorator metadata
      const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [

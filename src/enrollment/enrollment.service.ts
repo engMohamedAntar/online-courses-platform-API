@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { User, UserRole } from '../user/user.entity';
 import { Course } from '../course/course.entity';
 import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';
-import { NotificationsService } from '../notifications/notifications.service';
+// import { NotificationsService } from '../notifications/notifications.service';
 
 //enrollment.service
 @Injectable()
@@ -21,7 +21,7 @@ export class EnrollmentService {
     private userRepo: Repository<User>,
     @InjectRepository(Course)
     private courseRepo: Repository<Course>,
-    private notificationsService: NotificationsService,
+    // private notificationsService: NotificationsService,
   ) {}
 
   // enrollment.service.ts
@@ -38,11 +38,11 @@ export class EnrollmentService {
       course,
       paymentStatus: PaymentStatus.SUCCESS,
     });
-    await this.notificationsService.sendMail({
-      to: user.email,
-      subject: 'Enrollment Status',
-      message: `Hi, ${user.name}. You have successfully enrolled in course ${course.title}`,
-    });
+    // await this.notificationsService.sendMail({
+    //   to: user.email,
+    //   subject: 'Enrollment Status',
+    //   message: `Hi, ${user.name}. You have successfully enrolled in course ${course.title}`,
+    // });
     return await this.enrollmentRepo.save(enrollment);
   }
 
