@@ -1,4 +1,3 @@
-
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
@@ -9,7 +8,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor( configService: ConfigService, @InjectRepository(User) private userRepo: Repository<User>) {
+  constructor(
+    configService: ConfigService,
+    @InjectRepository(User) private userRepo: Repository<User>,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -18,11 +20,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: any) {
-    const userId= payload.sub;
-    const user= await this.userRepo.findOneBy({id: userId});
-    if(!user)
-      return null;
-    const {password, ...userWithoutPassword}= user;
+    const userId = payload.sub;
+    const user = await this.userRepo.findOneBy({ id: userId });
+    if (!user) return null;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userWithoutPassword } = user;
+
     return userWithoutPassword;
   }
 }
