@@ -12,8 +12,8 @@ import { UploadModule } from 'src/upload/upload.module';
 //user.module.ts
 @Module({
   imports: [TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, Payment]), UploadModule],
-  providers: [UserService],
-  exports: [TypeOrmModule],
+  providers: [UserService], 
+  exports: [TypeOrmModule, UserService],
   controllers: [UserController]
 })
 export class UserModule {}

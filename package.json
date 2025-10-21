@@ -5,7 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "engines": { "node": "22.x" },
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -37,7 +39,9 @@
     "class-validator": "^0.14.2",
     "nodemailer": "^7.0.6",
     "passport": "^0.7.0",
+    "passport-google-oauth2": "^0.2.0",
     "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "pg": "^8.16.3",
     "postgres": "^3.4.7",
     "randomuuid": "^1.0.1",
@@ -58,7 +62,9 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^22.10.7",
     "@types/nodemailer": "^7.0.1",
+    "@types/passport-google-oauth2": "^0.1.10",
     "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",

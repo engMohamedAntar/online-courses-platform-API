@@ -11,8 +11,8 @@ export class CreateUserDto {
   password: string;
   @IsOptional()
   @IsString()
-  profileImageKey: string;
+  profileImageKey?: string;
   @IsOptional()
   @IsString({ message: 'role must be string' })
-  role: UserRole;
+  role?: UserRole;
 }
