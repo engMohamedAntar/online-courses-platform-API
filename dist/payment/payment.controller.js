@@ -41,10 +41,12 @@ let PaymentController = class PaymentController {
         return await this.paymentService.createSession(payment.id, user, course);
     }
     successPage() {
-        return 'Payment is success';
+        return process.env.STRIPE_WEBHOOK_SECRET;
+        return 'Payment is success ali';
     }
     cancelPage() {
-        return 'Payment canceled';
+        return process.env.STRIPE_WEBHOOK_SECRET;
+        return 'Payment canceled ali';
     }
 };
 exports.PaymentController = PaymentController;

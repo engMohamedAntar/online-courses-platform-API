@@ -47,10 +47,13 @@ export class PaymentController {
 
   @Get('success')
   successPage() {
-    return 'Payment is success';
+    return process.env.STRIPE_WEBHOOK_SECRET
+    return 'Payment is success ali';
   }
   @Get('cancel')
   cancelPage() {
-    return 'Payment canceled';
+    return process.env.STRIPE_WEBHOOK_SECRET;
+    
+    return 'Payment canceled ali';
   }
 }
