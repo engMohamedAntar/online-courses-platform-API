@@ -1,0 +1,1 @@
+{"version":3,"file":"updateStatus.dto.js","sourceRoot":"","sources":["../../../src/enrollment/dto/updateStatus.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AACA,qDAAyC;AACzC,4DAAqD;AAGrD,MAAa,yBAAyB;IAIpC,MAAM,CAAgB;CACvB;AALD,8DAKC;AADC;IAHC,IAAA,wBAAM,EAAC,iCAAa,EAAE;QACrB,OAAO,EAAE,iDAAiD;KAC3D,CAAC;;yDACoB"}
