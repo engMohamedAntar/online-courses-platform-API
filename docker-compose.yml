@@ -3,6 +3,7 @@ version: "3.8"
 
 services:
   online-course-platform:
+    image: moantarnouh/online-course-platform
     container_name: online-course-platform
     build:
       context: .
