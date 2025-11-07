@@ -1,4 +1,4 @@
-import { Course } from "src/course/course.entity";
+import { Course } from "../course/course.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 //lesson.entity.ts

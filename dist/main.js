@@ -42,6 +42,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const expressApp = app.getHttpAdapter().getInstance();
     expressApp.post('/payment/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
+        console.log('entered the webhook');
         app.get(payment_service_1.PaymentService).handleWebhook(req)
             .then(result => res.status(200).send(result))
             .catch(err => res.status(400).send(`Webhook error: ${err.message}`));

@@ -1,8 +1,8 @@
 //user.entity.ts
 import { Exclude } from 'class-transformer';
-import { Course } from 'src/course/course.entity';
-import { Enrollment } from 'src/enrollment/enrollment.entity';
-import { Payment } from 'src/payment/payment.entity';
+import { Course } from '../course/course.entity';
+import { Enrollment } from '../enrollment/enrollment.entity';
+import { Payment } from '../payment/payment.entity';
 import {
   Column,
   CreateDateColumn,

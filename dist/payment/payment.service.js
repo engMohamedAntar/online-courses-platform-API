@@ -50,8 +50,8 @@ let PaymentService = class PaymentService {
                 },
             ],
             mode: 'payment',
-            success_url: `https://online-course-platform-api.vercel.app/payment/success`,
-            cancel_url: `https://online-course-platform-api.vercel.app/payment/cancel`,
+            success_url: `https://buddy-epinions-careers-realize.trycloudflare.com/payment/success`,
+            cancel_url: `https://buddy-epinions-careers-realize.trycloudflare.com/payment/cancel`,
             client_reference_id: paymentId.toString(),
             customer_email: user.email,
         });

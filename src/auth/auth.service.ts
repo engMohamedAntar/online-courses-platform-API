@@ -3,13 +3,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from './dto/registerDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserResponseDto } from '../user/dto/userResponse.dto';
 import { ConfigService } from '@nestjs/config';
-import { UserService } from 'src/user/user.service';
-import { CreateUserDto } from 'src/user/dto/createUser.dto';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/dto/createUser.dto';
+import { ReturningResultsEntityUpdator } from 'typeorm/query-builder/ReturningResultsEntityUpdator.js';
 
 @Injectable()
 export class AuthService {
@@ -30,6 +31,7 @@ export class AuthService {
 
     //create jwtToken
     const token = this.jwtService.sign({ sub: user.id, email: user.email });
+    
     return new UserResponseDto(user, token);
   }
 

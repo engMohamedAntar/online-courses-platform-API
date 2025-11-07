@@ -1,7 +1,7 @@
-import { Enrollment } from 'src/enrollment/enrollment.entity';
-import { Lesson } from 'src/lesson/lesson.entity';
-import { Payment } from 'src/payment/payment.entity';
-import { User } from 'src/user/user.entity';
+import { Enrollment } from '../enrollment/enrollment.entity';
+import { Lesson } from '../lesson/lesson.entity';
+import { Payment } from '../payment/payment.entity';
+import { User } from '../user/user.entity';
 import {
   Column,
   CreateDateColumn,

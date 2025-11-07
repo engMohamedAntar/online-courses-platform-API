@@ -3,11 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { Course } from 'src/course/course.entity';
-import { Lesson } from 'src/lesson/lesson.entity';
-import { Enrollment } from 'src/enrollment/enrollment.entity';
-import { Payment } from 'src/payment/payment.entity';
-import { UploadModule } from 'src/upload/upload.module';
+import { Course } from '../course/course.entity';
+import { Lesson } from '../lesson/lesson.entity';
+import { Enrollment } from '../enrollment/enrollment.entity';
+import { Payment } from '../payment/payment.entity';
+import { UploadModule } from '../upload/upload.module';
 
 //user.module.ts
 @Module({

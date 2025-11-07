@@ -19,7 +19,7 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guards';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { randomUUID } from 'crypto';
-import { UploadService } from 'src/upload/upload.service';
+import { UploadService } from '../upload/upload.service';
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('users')

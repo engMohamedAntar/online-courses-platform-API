@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { User } from 'src/user/user.entity';
-import { Course } from 'src/course/course.entity';
+import { User } from '../user/user.entity';
+import { Course } from '../course/course.entity';
 
 export enum PaymentStatus {
   PENDING = 'pending',

@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { RolesGuard } from 'src/common/guards/roles.guards';
+import { Roles } from '../common/decorators/roles.decorator';
+import { RolesGuard } from '../common/guards/roles.guards';
 
 //upload.controller
 @UseGuards(AuthGuard('jwt'), RolesGuard)
