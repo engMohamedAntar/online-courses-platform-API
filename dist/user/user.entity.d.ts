@@ -1,6 +1,6 @@
-import { Course } from 'src/course/course.entity';
-import { Enrollment } from 'src/enrollment/enrollment.entity';
-import { Payment } from 'src/payment/payment.entity';
+import { Course } from '../course/course.entity';
+import { Enrollment } from '../enrollment/enrollment.entity';
+import { Payment } from '../payment/payment.entity';
 export declare enum UserRole {
     STUDENT = "student",
     INSTRUCTOR = "instructor",

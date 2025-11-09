@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
-import { UploadService } from 'src/upload/upload.service';
+import { UploadService } from '../upload/upload.service';
 export declare class UserService {
     private usersRepository;
     private uploadService;

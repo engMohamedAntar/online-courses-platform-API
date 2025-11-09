@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { LessonService } from './lesson.service';
 import { CreateLessonDto } from './dto/createLessonDto';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { Roles } from '../common/decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/common/guards/roles.guards';
+import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateLessonDto } from './dto/updateLessonDto';
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)

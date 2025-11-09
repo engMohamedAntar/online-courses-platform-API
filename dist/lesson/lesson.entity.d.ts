@@ -1,4 +1,4 @@
-import { Course } from "src/course/course.entity";
+import { Course } from "../course/course.entity";
 export declare class Lesson {
     id: number;
     title: string;

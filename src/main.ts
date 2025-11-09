@@ -12,7 +12,6 @@ async function bootstrap() {
   const expressApp = app.getHttpAdapter().getInstance();
   // For Stripe webhooks: the body must be raw
   expressApp.post('/payment/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => { 
-    console.log('entered the webhook');
     app.get(PaymentService).handleWebhook(req)
       .then(result => res.status(200).send(result))
       .catch(err => res.status(400).send(`Webhook error: ${err.message}`));
@@ -26,6 +25,6 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true},
     }),
   );
-  await app.listen(process.env.PORT ?? 3000);  
+  await app.listen(process.env.PORT ?? 4000);  
 }
 bootstrap();

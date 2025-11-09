@@ -18,17 +18,18 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateCourseDto } from './dtos/updateCourse.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadService } from 'src/upload/upload.service';
+import { UploadService } from '../upload/upload.service';
 
 //course.controller.ts
 @Controller('course')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class CourseController {
   constructor(
     private courseService: CourseService,
     private uploadService: UploadService,
   ) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Roles('instructor')
   @Post()
   @UseInterceptors(FileInterceptor('thumbnail'))
@@ -52,6 +53,7 @@ export class CourseController {
     return await this.courseService.getOneCourse(id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Roles('instructor')
   @Patch(':id')
   async updateCourse(
@@ -62,6 +64,7 @@ export class CourseController {
     return await this.courseService.updateCourse(id, body, req.user.id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Roles('instructor', 'admin')
   @Delete(':id')
   async deleteCourse(@Param('id', ParseIntPipe) id: number, @Req() req) {

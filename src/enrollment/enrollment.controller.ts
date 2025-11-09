@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { EnrollmentService } from './enrollment.service';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { Roles } from '../common/decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateEnrollmentStatusDto } from './dto/updateStatus.dto';

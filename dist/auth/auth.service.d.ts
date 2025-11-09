@@ -1,11 +1,11 @@
 import { RegisterDto } from './dto/registerDto';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserResponseDto } from '../user/dto/userResponse.dto';
 import { ConfigService } from '@nestjs/config';
-import { UserService } from 'src/user/user.service';
-import { CreateUserDto } from 'src/user/dto/createUser.dto';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/dto/createUser.dto';
 export declare class AuthService {
     private userRepo;
     private jwtService;
@@ -30,7 +30,7 @@ export declare class AuthService {
         id: number;
         name: string;
         email: string;
-        role: import("src/user/user.entity").UserRole;
+        role: import("../user/user.entity").UserRole;
         profileImageKey: string;
         courses: [import("../course/course.entity").Course];
         enrollments: import("../enrollment/enrollment.entity").Enrollment[];

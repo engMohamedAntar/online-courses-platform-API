@@ -1,7 +1,7 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CourseModule } from './course/course.module';
@@ -15,9 +15,11 @@ import { MailerModule } from '@nestjs-modules/mailer';
 //app.module.ts
 @Module({
   imports: [
-    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     DatabaseModule,
-    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
     UserModule,
     CourseModule,
     LessonModule,
@@ -28,7 +30,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     MailerModule.forRoot({
       transport: {
         service: 'gmail',
-       auth: {
+        auth: {
           user: process.env.EMAIL_USERNAME, //your email
           pass: process.env.EMAIL_PASSWORD, //your app password
         },

@@ -1,6 +1,6 @@
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
-import { UploadService } from 'src/upload/upload.service';
+import { UploadService } from '../upload/upload.service';
 export declare class UserController {
     private userService;
     private uploadService;

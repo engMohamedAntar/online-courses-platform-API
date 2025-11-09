@@ -26,9 +26,12 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            auth_module_1.AuthModule,
+            config_1.ConfigModule.forRoot({
+                envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+                isGlobal: true,
+            }),
             database_module_1.DatabaseModule,
-            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            auth_module_1.AuthModule,
             user_module_1.UserModule,
             course_module_1.CourseModule,
             lesson_module_1.LessonModule,

@@ -1,11 +1,11 @@
 import { Lesson } from './lesson.entity';
 import { Repository } from 'typeorm';
 import { CreateLessonDto } from './dto/createLessonDto';
-import { User } from 'src/user/user.entity';
-import { Course } from 'src/course/course.entity';
+import { User } from '../user/user.entity';
+import { Course } from '../course/course.entity';
 import { UpdateLessonDto } from './dto/updateLessonDto';
-import { Enrollment } from 'src/enrollment/enrollment.entity';
-import { UploadService } from 'src/upload/upload.service';
+import { Enrollment } from '../enrollment/enrollment.entity';
+import { UploadService } from '../upload/upload.service';
 export declare class LessonService {
     private uploadService;
     private lessonRepo;

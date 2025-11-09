@@ -1,12 +1,7 @@
 //database.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../user/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Course } from 'src/course/course.entity';
-import { Lesson } from 'src/lesson/lesson.entity';
-import { Enrollment } from 'src/enrollment/enrollment.entity';
-import { Payment } from 'src/payment/payment.entity';
 
 @Module({
   imports: [
@@ -15,12 +10,12 @@ import { Payment } from 'src/payment/payment.entity';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get('HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USER'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        entities: [User, Course, Lesson, Enrollment, Payment],
+        host: configService.get<string>('HOST'),
+        port: parseInt(configService.get<string>('DB_PORT')!),
+        username: configService.get<string>('DB_USER'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_NAME'),
+        autoLoadEntities: true,
         synchronize: true,
       }),
     }),

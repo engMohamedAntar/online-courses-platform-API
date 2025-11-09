@@ -1,6 +1,6 @@
 import { CourseService } from './course.service';
 import { UpdateCourseDto } from './dtos/updateCourse.dto';
-import { UploadService } from 'src/upload/upload.service';
+import { UploadService } from '../upload/upload.service';
 export declare class CourseController {
     private courseService;
     private uploadService;

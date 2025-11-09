@@ -9,12 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("../user/user.entity");
 const config_1 = require("@nestjs/config");
-const course_entity_1 = require("../course/course.entity");
-const lesson_entity_1 = require("../lesson/lesson.entity");
-const enrollment_entity_1 = require("../enrollment/enrollment.entity");
-const payment_entity_1 = require("../payment/payment.entity");
 let DatabaseModule = class DatabaseModule {
 };
 exports.DatabaseModule = DatabaseModule;
@@ -27,11 +22,11 @@ exports.DatabaseModule = DatabaseModule = __decorate([
                 useFactory: (configService) => ({
                     type: 'postgres',
                     host: configService.get('HOST'),
-                    port: configService.get('DB_PORT'),
+                    port: parseInt(configService.get('DB_PORT')),
                     username: configService.get('DB_USER'),
                     password: configService.get('DB_PASSWORD'),
                     database: configService.get('DB_NAME'),
-                    entities: [user_entity_1.User, course_entity_1.Course, lesson_entity_1.Lesson, enrollment_entity_1.Enrollment, payment_entity_1.Payment],
+                    autoLoadEntities: true,
                     synchronize: true,
                 }),
             }),

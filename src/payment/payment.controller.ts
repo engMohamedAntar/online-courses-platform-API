@@ -14,8 +14,8 @@ import { User } from '../user/user.entity';
 import { Course } from '../course/course.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { RolesGuard } from 'src/common/guards/roles.guards';
+import { Roles } from '../common/decorators/roles.decorator';
+import { RolesGuard } from '../common/guards/roles.guards';
 
 //payment.controller.ts
 @Controller('payment')
