@@ -1,6 +1,6 @@
 import { AuthService } from './auth.service';
 import { User } from '../user/user.entity';
-import { JwtService, TokenExpiredError } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
 import { Test } from '@nestjs/testing';
