@@ -49,6 +49,7 @@ let CourseController = class CourseController {
 };
 exports.CourseController = CourseController;
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, roles_decorator_1.Roles)('instructor'),
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('thumbnail')),
@@ -73,6 +74,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CourseController.prototype, "getOneCourse", null);
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, roles_decorator_1.Roles)('instructor'),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -83,6 +85,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CourseController.prototype, "updateCourse", null);
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, roles_decorator_1.Roles)('instructor', 'admin'),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -93,7 +96,7 @@ __decorate([
 ], CourseController.prototype, "deleteCourse", null);
 exports.CourseController = CourseController = __decorate([
     (0, common_1.Controller)('course'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guards_1.RolesGuard),
+    (0, common_1.UseGuards)(roles_guards_1.RolesGuard),
     __metadata("design:paramtypes", [course_service_1.CourseService,
         upload_service_1.UploadService])
 ], CourseController);

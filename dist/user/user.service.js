@@ -65,7 +65,6 @@ let UserService = class UserService {
     }
     async getOneUser(id) {
         const user = await this.usersRepository.findOneBy({ id });
-        console.log(user);
         if (!user)
             throw new common_1.NotFoundException('no user found for this id');
         return user;

@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../user/user.entity';
 import { Repository } from 'typeorm';
 
+//jwt.strategy.ts
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
@@ -25,7 +26,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     if (!user) return null;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = user;
-
     return userWithoutPassword;
   }
 }

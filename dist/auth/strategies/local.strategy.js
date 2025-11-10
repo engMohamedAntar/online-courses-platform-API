@@ -22,9 +22,11 @@ let LocalStrategy = class LocalStrategy extends (0, passport_1.PassportStrategy)
         });
         this.authService = authService;
     }
-    validate(email, password) {
+    async validate(email, password) {
         if (password === '')
             throw new common_1.UnauthorizedException('Please Provide The Password');
+        console.log('local strategy');
+        console.log(await this.authService.validateUser(email, password));
         return this.authService.validateUser(email, password);
     }
 };

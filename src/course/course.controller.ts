@@ -22,22 +22,28 @@ import { UploadService } from '../upload/upload.service';
 
 //course.controller.ts
 @Controller('course')
-@UseGuards(RolesGuard)
 export class CourseController {
   constructor(
     private courseService: CourseService,
     private uploadService: UploadService,
   ) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('instructor')
   @Post()
   @UseInterceptors(FileInterceptor('thumbnail'))
-  async createCourse(@Body() body, @Req() req, @UploadedFile() file: Express.Multer.File) {    
+  async createCourse(
+    @Body() body,
+    @Req() req,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     //define where to upload the file (fileKey)
-    const fileName = this.uploadService.buildFileKey('courses', file.originalname);
+    const fileName = this.uploadService.buildFileKey(
+      'courses',
+      file.originalname,
+    );
     //upload the file and get its key
-    const key = await this.uploadService.upload(file, fileName);    
+    const key = await this.uploadService.upload(file, fileName);
     //put the key the body and create the course
     body.thumbnailKey = key;
     return await this.courseService.createCourse(body, req.user.id);

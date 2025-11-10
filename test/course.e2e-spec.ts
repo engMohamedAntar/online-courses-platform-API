@@ -9,6 +9,9 @@ import { Course } from '../src/course/course.entity';
 import { CreateCourseDto } from '../src/course/dtos/createCourse.dto';
 import { DataSource } from 'typeorm';
 import request from 'supertest';
+import path from 'path';
+import { User, UserRole } from '../src/user/user.entity';
+import bcrypt from 'bcrypt';
 
 describe('CourseController (e2e)', () => {
   let app: INestApplication;
@@ -54,10 +57,27 @@ describe('CourseController (e2e)', () => {
     app = module.createNestApplication();
     await app.init();
     dataSource = app.get(DataSource);
+
+    //saving a new instructor user into db
+    const hash = await bcrypt.hash('pass123', 10);
+    await dataSource
+      .createQueryBuilder()
+      .insert()
+      .into(User)
+      .values([
+        {
+          name: 'admin',
+          email: 'admin@gmail.com',
+          password: hash,
+          role: UserRole.INSTRUCTOR,
+        },
+      ])
+      .execute();
   });
 
   afterEach(async () => {
     await dataSource.createQueryBuilder().delete().from(Course).execute();
+    await dataSource.createQueryBuilder().delete().from(User).execute();
     await app.close();
   });
 
@@ -73,6 +93,33 @@ describe('CourseController (e2e)', () => {
       const response = await request(app.getHttpServer()).get('/course');
       expect(response.status).toBe(200);
       expect(response.body).toHaveLength(4);
+    });
+  });
+
+  // POST: ~/course/
+  describe('POST', () => {
+    it('should create a course with a thumbnail upload', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email: 'admin@gmail.com', password: 'pass123' });
+      const accessToken = res.body.accessToken;
+
+      // ✅ Path to your test image
+      const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
+      const response = await request(app.getHttpServer())
+        .post('/course')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('title', 'created course')
+        .field('description', 'created course description')
+        .field('price', '105')
+        .field('duration', '3')
+        .attach('thumbnail', testImagePath);
+
+      // ✅ Assertions
+      expect(response.status).toBe(201);
+      expect(response.body).toHaveProperty('id');
+      expect(response.body.title).toBe('created course');
+      expect(response.body).toHaveProperty('thumbnailKey');
     });
   });
 });

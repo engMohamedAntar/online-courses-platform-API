@@ -36,6 +36,8 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         if (!user)
             return null;
         const { password, ...userWithoutPassword } = user;
+        console.log('validate');
+        console.log(user);
         return userWithoutPassword;
     }
 };

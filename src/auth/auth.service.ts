@@ -10,7 +10,6 @@ import { UserResponseDto } from '../user/dto/userResponse.dto';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/createUser.dto';
-import { ReturningResultsEntityUpdator } from 'typeorm/query-builder/ReturningResultsEntityUpdator.js';
 
 @Injectable()
 export class AuthService {
@@ -60,7 +59,7 @@ export class AuthService {
   }
 
   refreshToken(user: any) {
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email};
     const token = this.jwtService.sign(payload);
     return { accessToken: token };
   }
