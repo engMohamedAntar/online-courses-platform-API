@@ -17,8 +17,10 @@ import {
 export class Course {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column()
   title: string;
+
   @Column({ type: 'text', nullable: true })
   description: string;
 

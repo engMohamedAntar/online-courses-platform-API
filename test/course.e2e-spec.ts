@@ -66,8 +66,8 @@ describe('CourseController (e2e)', () => {
       .into(User)
       .values([
         {
-          name: 'admin',
-          email: 'admin@gmail.com',
+          name: 'instructor',
+          email: 'instructor@gmail.com',
           password: hash,
           role: UserRole.INSTRUCTOR,
         },
@@ -98,28 +98,54 @@ describe('CourseController (e2e)', () => {
 
   // POST: ~/course/
   describe('POST', () => {
-    it('should create a course with a thumbnail upload', async () => {
+    it('should return created course', async () => {
+      //login as instructor
       const res = await request(app.getHttpServer())
         .post('/auth/login')
-        .send({ email: 'admin@gmail.com', password: 'pass123' });
+        .send({ email: 'instructor@gmail.com', password: 'pass123' });
       const accessToken = res.body.accessToken;
 
-      // ✅ Path to your test image
       const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
       const response = await request(app.getHttpServer())
         .post('/course')
         .set('Authorization', `Bearer ${accessToken}`)
-        .field('title', 'created course')
-        .field('description', 'created course description')
-        .field('price', '105')
-        .field('duration', '3')
+        .field('title', 'course 1')
+        .field('description', 'course 1 title')
+        .field('price', 30)
         .attach('thumbnail', testImagePath);
 
-      // ✅ Assertions
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body.title).toBe('created course');
+      expect(response.body.id).toBeDefined();
       expect(response.body).toHaveProperty('thumbnailKey');
+    });
+
+    it('should return 400 if title less 3 chars', async () => {
+      //login as instructor
+      const res = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email: 'instructor@gmail.com', password: 'pass123' });
+      const accessToken = res.body.accessToken;
+
+      const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
+      const response = await request(app.getHttpServer())
+        .post('/course')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('title', 'co')
+        .field('price', 300)
+        .field('description', 'course 1 title')
+        .attach('thumbnail', testImagePath);
+
+      expect(response.status).toBe(400);
+    });
+
+    it('should return 401 if no token sent', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/course')
+        .field('title', 'cofdsf')
+        .field('price', 300)
+        .field('description', 'course 1 title');
+
+      expect(response.status).toBe(401);
     });
   });
 });

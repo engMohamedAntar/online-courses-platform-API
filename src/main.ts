@@ -1,7 +1,6 @@
 //main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { PaymentService } from './payment/payment.service';
 
@@ -17,14 +16,14 @@ async function bootstrap() {
       .catch(err => res.status(400).send(`Webhook error: ${err.message}`));
   });
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted:true,
-      transform: true,
-      transformOptions: { enableImplicitConversion: true},
-    }),
-  );
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     whitelist: true,
+  //     forbidNonWhitelisted:true,
+  //     transform: true,
+  //     transformOptions: { enableImplicitConversion: true},
+  //   }),
+  // );
   await app.listen(process.env.PORT ?? 4000);  
 }
 bootstrap();

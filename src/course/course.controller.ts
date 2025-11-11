@@ -19,6 +19,7 @@ import { RolesGuard } from '../common/guards/roles.guards';
 import { UpdateCourseDto } from './dtos/updateCourse.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from '../upload/upload.service';
+import { CreateCourseDto } from './dtos/createCourse.dto';
 
 //course.controller.ts
 @Controller('course')
@@ -33,7 +34,7 @@ export class CourseController {
   @Post()
   @UseInterceptors(FileInterceptor('thumbnail'))
   async createCourse(
-    @Body() body,
+    @Body() body:CreateCourseDto,
     @Req() req,
     @UploadedFile() file: Express.Multer.File,
   ) {

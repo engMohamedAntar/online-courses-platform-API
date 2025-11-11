@@ -1,9 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString, Length } from "class-validator";
 
 //createCourse.dto.ts
 export class CreateCourseDto {
     @IsString()
     @IsNotEmpty()
+    @Length(3,15)
     title: string;
 
     @IsString()
