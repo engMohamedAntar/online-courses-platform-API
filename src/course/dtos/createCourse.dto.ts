@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString, Length } from "class-valida
 export class CreateCourseDto {
     @IsString()
     @IsNotEmpty()
-    @Length(3,15)
+    @Length(3,40)
     title: string;
 
     @IsString()

@@ -1,9 +1,10 @@
-import {IsNumber, IsOptional, IsString } from 'class-validator';
+import {IsNumber, IsOptional, IsString, Length } from 'class-validator';
 
 //updateCourse.dto.ts
 export class UpdateCourseDto {
   @IsOptional()
   @IsString()
+  @Length(3,40)
   title?: string;
 
   @IsOptional()

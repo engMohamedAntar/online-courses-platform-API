@@ -17,7 +17,7 @@ describe('CourseController (e2e)', () => {
   let app: INestApplication;
   let dataSource: DataSource;
   let coursesToSave: CreateCourseDto[];
-
+  let accessToken;
   beforeEach(async () => {
     coursesToSave = [
       {
@@ -73,6 +73,12 @@ describe('CourseController (e2e)', () => {
         },
       ])
       .execute();
+
+    //login as instructor
+    const res = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'instructor@gmail.com', password: 'pass123' });
+    accessToken = res.body.accessToken;
   });
 
   afterEach(async () => {
@@ -96,15 +102,43 @@ describe('CourseController (e2e)', () => {
     });
   });
 
+  //GET: ~/course/:id
+  describe('GET /:id', () => {
+    it('Should return specified course', async () => {
+      //create course
+      const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
+      const { body } = await request(app.getHttpServer())
+        .post('/course')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('title', 'course 1')
+        .field('description', 'course 1 title')
+        .field('price', 30)
+        .attach('thumbnail', testImagePath);
+
+      //get the created course
+      const response = await request(app.getHttpServer()).get(
+        `/course/${body.id}`,
+      );
+
+      expect(response.status).toBe(200);
+      expect(response.body.id).toBe(body.id);
+      expect(response.body).toMatchObject(body);
+    }, 20000);
+
+    it('Should return 404 if course not found', async () => {
+      const response = await request(app.getHttpServer()).get('/course/1000');
+      expect(response.status).toBe(404);
+    });
+
+    it('Should return 400 if invalid id passed', async () => {
+      const response = await request(app.getHttpServer()).get('/course/abc');
+      expect(response.status).toBe(400);
+    });
+  });
+
   // POST: ~/course/
   describe('POST', () => {
     it('should return created course', async () => {
-      //login as instructor
-      const res = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({ email: 'instructor@gmail.com', password: 'pass123' });
-      const accessToken = res.body.accessToken;
-
       const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
       const response = await request(app.getHttpServer())
         .post('/course')
@@ -120,12 +154,6 @@ describe('CourseController (e2e)', () => {
     });
 
     it('should return 400 if title less 3 chars', async () => {
-      //login as instructor
-      const res = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({ email: 'instructor@gmail.com', password: 'pass123' });
-      const accessToken = res.body.accessToken;
-
       const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
       const response = await request(app.getHttpServer())
         .post('/course')
@@ -146,6 +174,110 @@ describe('CourseController (e2e)', () => {
         .field('description', 'course 1 title');
 
       expect(response.status).toBe(401);
+    });
+  });
+
+  //PATCH: ~/course/:id
+  describe('PATCH', () => {
+    it('should return updated course', async () => {
+      //create course
+      const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
+      const { body } = await request(app.getHttpServer())
+        .post('/course')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('title', 'course 1')
+        .field('description', 'course 1 title')
+        .field('price', 30)
+        .attach('thumbnail', testImagePath);
+
+      const response = await request(app.getHttpServer())
+        .patch(`/course/${body.id}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ title: 'updated course' });
+
+      expect(response.status).toBe(200);
+
+      expect(response.body.title).toBe('updated course');
+    }, 20000);
+
+    it('should return 400 if title<3 ', async () => {
+      //create course
+      const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
+      const { body } = await request(app.getHttpServer())
+        .post('/course')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('title', 'course 1')
+        .field('description', 'course 1 title')
+        .field('price', 30)
+        .attach('thumbnail', testImagePath);
+
+      const response = await request(app.getHttpServer())
+        .patch(`/course/${body.id}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ title: 'up' });
+
+      expect(response.status).toBe(400);
+    }, 20000);
+
+    it('should return 404 if product not found ', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/course/3`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ title: 'upfsdf' });
+
+      expect(response.status).toBe(404);
+    }, 20000);
+
+    it('should return 404 if invalid id passed ', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/course/abc`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ title: 'upfsdf' });
+
+      expect(response.status).toBe(400);
+    }, 20000);
+  });
+
+  //DELETE: ~/course/:id
+  describe('DELETE', () => {
+    it('status code should be 200', async () => {
+      //create course
+      const testImagePath = path.join(__dirname, 'test-files', 'thumbnail.jpg');
+      const { body } = await request(app.getHttpServer())
+        .post('/course')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('title', 'course 1')
+        .field('description', 'course 1 title')
+        .field('price', 30)
+        .attach('thumbnail', testImagePath);
+
+      const response = await request(app.getHttpServer())
+        .delete(`/course/${body.id}`)
+        .set('Authorization', `Bearer ${accessToken}`);
+
+      expect(response.status).toBe(200);
+    });
+
+    it('status code should be 401 if no token sent', async () => {
+      const response = await request(app.getHttpServer()).delete(`/course/1`);
+
+      expect(response.status).toBe(401);
+    });
+
+    it('status code should be 404 if course not found', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/course/1`)
+        .set('Authorization', `Bearer ${accessToken}`);
+
+      expect(response.status).toBe(404);
+    });
+
+    it('status code should be 400 if invalid id sent', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/course/abc`)
+        .set('Authorization', `Bearer ${accessToken}`);
+
+      expect(response.status).toBe(400);
     });
   });
 });

@@ -46,7 +46,7 @@ export class CourseController {
     //upload the file and get its key
     const key = await this.uploadService.upload(file, fileName);
     //put the key the body and create the course
-    body.thumbnailKey = key;
+    body.thumbnailKey = key;  
     return await this.courseService.createCourse(body, req.user.id);
   }
 

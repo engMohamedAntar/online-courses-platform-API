@@ -33,8 +33,11 @@ export class CourseService {
   }
 
   async getOneCourse(id: number) {
-    const course = await this.courseRepo.findOneBy({ id });
-    if(!course)
+    const course = await this.courseRepo.findOne({
+      where: { id },
+      relations: ['instructor'],
+    });
+    if (!course)
       throw new NotFoundException(`No course found for this id ${id}`);
     return course;
   }
@@ -51,7 +54,7 @@ export class CourseService {
     if (userId !== course.instructor.id)
       throw new ForbiddenException('You are not allowed to update this course');
 
-    course= {...course, ...body};
+    course = { ...course, ...body };
     return await this.courseRepo.save(course);
   }
 
@@ -64,7 +67,7 @@ export class CourseService {
       throw new NotFoundException(`No course found for this id ${id}`);
 
     //ownership check
-    if (role!== 'admin' &&course.instructor.id !== userId)
+    if (role !== 'admin' && course.instructor.id !== userId)
       throw new ForbiddenException('You are not allowed to delete this course');
     await this.courseRepo.delete({ id });
   }
