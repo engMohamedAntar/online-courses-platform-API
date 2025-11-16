@@ -1,9 +1,9 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
-
-export class Intial1763058177857 implements MigrationInterface {
-    name = 'Intial1763058177857'
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Intial1763070682533 = void 0;
+class Intial1763070682533 {
+    name = 'Intial1763070682533';
+    async up(queryRunner) {
         await queryRunner.query(`CREATE TYPE "public"."payments_status_enum" AS ENUM('pending', 'success', 'failed')`);
         await queryRunner.query(`CREATE TYPE "public"."payments_provider_enum" AS ENUM('stripe', 'paypal')`);
         await queryRunner.query(`CREATE TABLE "payments" ("id" SERIAL NOT NULL, "amount" numeric(10,2) NOT NULL, "currency" character varying(10) NOT NULL, "status" "public"."payments_status_enum" NOT NULL DEFAULT 'pending', "provider" "public"."payments_provider_enum" NOT NULL, "transactionId" character varying, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "userId" integer, "courseId" integer, CONSTRAINT "PK_197ab7af18c93fbb0c9b28b4a59" PRIMARY KEY ("id"))`);
@@ -19,8 +19,7 @@ export class Intial1763058177857 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "lesson" ADD CONSTRAINT "FK_3801ccf9533a8627c1dcb1e33bf" FOREIGN KEY ("courseId") REFERENCES "course"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "course" ADD CONSTRAINT "FK_32d94af473bb59d808d9a68e17b" FOREIGN KEY ("instructorId") REFERENCES "User"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
+    async down(queryRunner) {
         await queryRunner.query(`ALTER TABLE "course" DROP CONSTRAINT "FK_32d94af473bb59d808d9a68e17b"`);
         await queryRunner.query(`ALTER TABLE "lesson" DROP CONSTRAINT "FK_3801ccf9533a8627c1dcb1e33bf"`);
         await queryRunner.query(`ALTER TABLE "enrollment" DROP CONSTRAINT "FK_d1a599a7740b4f4bd1120850f04"`);
@@ -36,5 +35,6 @@ export class Intial1763058177857 implements MigrationInterface {
         await queryRunner.query(`DROP TYPE "public"."payments_provider_enum"`);
         await queryRunner.query(`DROP TYPE "public"."payments_status_enum"`);
     }
-
 }
+exports.Intial1763070682533 = Intial1763070682533;
+//# sourceMappingURL=1763070682533-intial.js.map

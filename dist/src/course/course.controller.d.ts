@@ -7,7 +7,7 @@ export declare class CourseController {
     private uploadService;
     constructor(courseService: CourseService, uploadService: UploadService);
     createCourse(body: CreateCourseDto, req: any, file: Express.Multer.File): Promise<import("./course.entity").Course>;
-    getAllCourses(): Promise<import("./course.entity").Course[]>;
+    getAllCourses(title: string): Promise<import("./course.entity").Course[]>;
     getOneCourse(id: number): Promise<import("./course.entity").Course>;
     updateCourse(id: number, body: UpdateCourseDto, req: any): Promise<import("./course.entity").Course>;
     deleteCourse(id: number, req: any): Promise<void>;

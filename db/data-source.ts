@@ -4,10 +4,11 @@ import { Lesson } from '../src/lesson/lesson.entity';
 import { Payment } from '../src/payment/payment.entity';
 import { User } from '../src/user/user.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
-
+import dotenv from 'dotenv';
+dotenv.config();
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
-  url: 'postgresql://neondb_owner:npg_g67iQAPrXles@ep-icy-rice-a49l0aid-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
+  url: process.env.Neon_DB_URL,
   entities: [User, Course, Lesson, Enrollment, Payment],
   migrations: ['dist/db/migrations/*.js'],
 };

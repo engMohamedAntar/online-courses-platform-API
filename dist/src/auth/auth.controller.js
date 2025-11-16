@@ -17,6 +17,8 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const registerDto_1 = require("./dto/registerDto");
 const passport_1 = require("@nestjs/passport");
+const swagger_1 = require("@nestjs/swagger");
+const loginDto_1 = require("./dto/loginDto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
@@ -34,7 +36,12 @@ let AuthController = class AuthController {
     async auth() { }
     async googleAuthCallback(req, res) {
         const response = await this.authService.login(req.user);
-        res.status(200).json({ accessToken: response.accessToken, refreshToken: response.refreshToken });
+        res
+            .status(200)
+            .json({
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
+        });
     }
 };
 exports.AuthController = AuthController;
@@ -47,6 +54,7 @@ __decorate([
 ], AuthController.prototype, "register", null);
 __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('local')),
+    (0, swagger_1.ApiBody)({ type: loginDto_1.LoginDto }),
     (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),

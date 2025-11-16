@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   Req,
   UploadedFile,
   UseGuards,
@@ -20,6 +21,15 @@ import { UpdateCourseDto } from './dtos/updateCourse.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from '../upload/upload.service';
 import { CreateCourseDto } from './dtos/createCourse.dto';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiSecurity,
+} from '@nestjs/swagger';
+import { CreateCourseWithFileDto } from './dtos/createCourseWithFile.dto';
 
 //course.controller.ts
 @Controller('course')
@@ -29,30 +39,41 @@ export class CourseController {
     private uploadService: UploadService,
   ) {}
 
+  @ApiSecurity('bearer')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: CreateCourseWithFileDto })
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('instructor')
   @Post()
   @UseInterceptors(FileInterceptor('thumbnail'))
   async createCourse(
-    @Body() body:CreateCourseDto,
+    @Body() body: CreateCourseDto,
     @Req() req,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    //define where to upload the file (fileKey)
-    const fileName = this.uploadService.buildFileKey(
-      'courses',
-      file.originalname,
-    );
-    //upload the file and get its key
-    const key = await this.uploadService.upload(file, fileName);
-    //put the key the body and create the course
-    body.thumbnailKey = key;  
+    if (file) {
+      //define where to upload the file (fileKey)
+      const fileName = this.uploadService.buildFileKey(
+        'courses',
+        file.originalname,
+      );
+      //upload the file and get its key
+      const key = await this.uploadService.upload(file, fileName);
+      //put the key the body and create the course
+      body.thumbnailKey = key;
+    }
     return await this.courseService.createCourse(body, req.user.id);
   }
 
   @Get()
-  async getAllCourses() {
-    return await this.courseService.getAllCourses();
+  @ApiQuery({
+    name: 'title',
+    required: false,
+  })
+  @ApiOperation({ summary: 'Get all courses' })
+  @ApiResponse({ status: 200, description: 'courses fetched successfully' })
+  async getAllCourses(@Query('title') title: string) {
+    return await this.courseService.getAllCourses(title);
   }
 
   @Get(':id')
@@ -63,6 +84,7 @@ export class CourseController {
   @UseGuards(AuthGuard('jwt'))
   @Roles('instructor')
   @Patch(':id')
+  @ApiSecurity('bearer')
   async updateCourse(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateCourseDto,

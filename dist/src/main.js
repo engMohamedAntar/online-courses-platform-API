@@ -37,6 +37,7 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const bodyParser = __importStar(require("body-parser"));
 const payment_service_1 = require("./payment/payment.service");
+const swagger_1 = require("@nestjs/swagger");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const expressApp = app.getHttpAdapter().getInstance();
@@ -47,6 +48,17 @@ async function bootstrap() {
             .then((result) => res.status(200).send(result))
             .catch((err) => res.status(400).send(`Webhook error: ${err.message}`));
     });
+    app.enableCors({ origin: 'http://localhost:3000' });
+    const config = new swagger_1.DocumentBuilder()
+        .setTitle('online coruse platform')
+        .setDescription('app description')
+        .addServer('http://localhost:4000')
+        .setVersion('1.0')
+        .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
+        .addBearerAuth()
+        .build();
+    const documentFactory = () => swagger_1.SwaggerModule.createDocument(app, config);
+    swagger_1.SwaggerModule.setup('swagger', app, documentFactory);
     await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();

@@ -8,7 +8,7 @@ export declare class CourseService {
     private userRepository;
     constructor(courseRepo: Repository<Course>, userRepository: Repository<User>);
     createCourse(body: CreateCourseDto, userId: number): Promise<Course>;
-    getAllCourses(): Promise<Course[]>;
+    getAllCourses(title: string): Promise<Course[]>;
     getOneCourse(id: number): Promise<Course>;
     updateCourse(id: number, body: UpdateCourseDto, userId: number): Promise<Course>;
     deleteCourse(id: number, userId: any, role: any): Promise<void>;

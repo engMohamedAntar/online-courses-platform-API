@@ -9,28 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterDto = void 0;
+exports.CreateCourseWithFileDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
-class RegisterDto {
-    name;
-    email;
-    password;
+class CreateCourseWithFileDto {
+    title;
+    description;
+    price;
+    duration;
+    thumbnail;
 }
-exports.RegisterDto = RegisterDto;
+exports.CreateCourseWithFileDto = CreateCourseWithFileDto;
 __decorate([
-    (0, class_validator_1.IsNotEmpty)({ message: 'name can not be empty' }),
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
-], RegisterDto.prototype, "name", void 0);
+], CreateCourseWithFileDto.prototype, "title", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)({}, { message: 'email not a valid email' }),
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
-], RegisterDto.prototype, "email", void 0);
+], CreateCourseWithFileDto.prototype, "description", void 0);
 __decorate([
-    (0, class_validator_1.MinLength)(6, { message: 'password should be at least 6 digits' }),
     (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
-], RegisterDto.prototype, "password", void 0);
-//# sourceMappingURL=registerDto.js.map
+    __metadata("design:type", Number)
+], CreateCourseWithFileDto.prototype, "price", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    __metadata("design:type", Number)
+], CreateCourseWithFileDto.prototype, "duration", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: 'string', format: 'binary', required: false }),
+    __metadata("design:type", Object)
+], CreateCourseWithFileDto.prototype, "thumbnail", void 0);
+//# sourceMappingURL=createCourseWithFile.dto.js.map

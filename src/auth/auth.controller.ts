@@ -13,6 +13,8 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/registerDto';
 import { UserResponseDto } from '../user/dto/userResponse.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBody } from '@nestjs/swagger';
+import { LoginDto } from './dto/loginDto';
 
 @Controller('auth')
 export class AuthController {
@@ -23,6 +25,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('local'))
+  @ApiBody({type: LoginDto})
   @Post('/login')
   login(@Req() req) {
     return this.authService.login(req.user);
@@ -42,9 +45,13 @@ export class AuthController {
   @UseGuards(AuthGuard('google'))
   async googleAuthCallback(@Request() req, @Res() res) {
     const response = await this.authService.login(req.user);
-    res.status(200).json({accessToken: response.accessToken, refreshToken: response.refreshToken});
+    res
+      .status(200)
+      .json({
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      });
     //if there is a front end, redirect to it
-    // res.redirect(`http://localhost:5173?access=${response.accessToken}&refresh=${response.refreshToken}`); 
-
+    // res.redirect(`http://localhost:5173?access=${response.accessToken}&refresh=${response.refreshToken}`);
   }
 }

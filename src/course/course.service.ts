@@ -27,8 +27,12 @@ export class CourseService {
     return await this.courseRepo.save(course);
   }
 
-  async getAllCourses() {
-    const courses = await this.courseRepo.find();
+  async getAllCourses(title: string) {
+    const courses = await this.courseRepo.find({
+      where:{
+        title
+      }
+    });
     return courses;
   }
 

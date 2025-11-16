@@ -32,8 +32,12 @@ let CourseService = class CourseService {
         const course = this.courseRepo.create({ ...body, instructor });
         return await this.courseRepo.save(course);
     }
-    async getAllCourses() {
-        const courses = await this.courseRepo.find();
+    async getAllCourses(title) {
+        const courses = await this.courseRepo.find({
+            where: {
+                title
+            }
+        });
         return courses;
     }
     async getOneCourse(id) {

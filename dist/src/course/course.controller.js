@@ -22,6 +22,8 @@ const updateCourse_dto_1 = require("./dtos/updateCourse.dto");
 const platform_express_1 = require("@nestjs/platform-express");
 const upload_service_1 = require("../upload/upload.service");
 const createCourse_dto_1 = require("./dtos/createCourse.dto");
+const swagger_1 = require("@nestjs/swagger");
+const createCourseWithFile_dto_1 = require("./dtos/createCourseWithFile.dto");
 let CourseController = class CourseController {
     courseService;
     uploadService;
@@ -30,13 +32,15 @@ let CourseController = class CourseController {
         this.uploadService = uploadService;
     }
     async createCourse(body, req, file) {
-        const fileName = this.uploadService.buildFileKey('courses', file.originalname);
-        const key = await this.uploadService.upload(file, fileName);
-        body.thumbnailKey = key;
+        if (file) {
+            const fileName = this.uploadService.buildFileKey('courses', file.originalname);
+            const key = await this.uploadService.upload(file, fileName);
+            body.thumbnailKey = key;
+        }
         return await this.courseService.createCourse(body, req.user.id);
     }
-    async getAllCourses() {
-        return await this.courseService.getAllCourses();
+    async getAllCourses(title) {
+        return await this.courseService.getAllCourses(title);
     }
     async getOneCourse(id) {
         return await this.courseService.getOneCourse(id);
@@ -50,6 +54,9 @@ let CourseController = class CourseController {
 };
 exports.CourseController = CourseController;
 __decorate([
+    (0, swagger_1.ApiSecurity)('bearer'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiBody)({ type: createCourseWithFile_dto_1.CreateCourseWithFileDto }),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guards_1.RolesGuard),
     (0, roles_decorator_1.Roles)('instructor'),
     (0, common_1.Post)(),
@@ -63,8 +70,15 @@ __decorate([
 ], CourseController.prototype, "createCourse", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiQuery)({
+        name: 'title',
+        required: false,
+    }),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all courses' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'courses fetched successfully' }),
+    __param(0, (0, common_1.Query)('title')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CourseController.prototype, "getAllCourses", null);
 __decorate([
@@ -78,6 +92,7 @@ __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, roles_decorator_1.Roles)('instructor'),
     (0, common_1.Patch)(':id'),
+    (0, swagger_1.ApiSecurity)('bearer'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),

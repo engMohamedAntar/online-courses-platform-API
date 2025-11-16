@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as bodyParser from 'body-parser';
 import { PaymentService } from './payment/payment.service';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 //main.ts
 async function bootstrap() {
@@ -31,6 +32,20 @@ async function bootstrap() {
   //     transformOptions: { enableImplicitConversion: true},
   //   }),
   // );
+
+  app.enableCors({ origin: 'http://localhost:3000' });
+
+  const config = new DocumentBuilder()
+    .setTitle('online coruse platform')
+    .setDescription('app description')
+    .addServer('http://localhost:4000')
+    .setVersion('1.0')
+    .addSecurity('bearer',{type: 'http', scheme: 'bearer'})
+    .addBearerAuth()
+    .build();
+
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger', app, documentFactory);
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();

@@ -8,16 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
-const data_source_1 = require("../../db/data-source");
 let DatabaseModule = class DatabaseModule {
 };
 exports.DatabaseModule = DatabaseModule;
 exports.DatabaseModule = DatabaseModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            typeorm_1.TypeOrmModule.forRoot(data_source_1.dataSourceOptions),
-        ],
+        imports: [typeorm_1.TypeOrmModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                inject: [config_1.ConfigService],
+                useFactory: (configService) => ({
+                    type: 'postgres',
+                    host: configService.get('HOST'),
+                    port: parseInt(configService.get('DB_PORT')),
+                    username: configService.get('DB_USER'),
+                    password: configService.get('DB_PASSWORD'),
+                    database: configService.get('DB_NAME'),
+                    autoLoadEntities: true,
+                    synchronize: true,
+                }),
+            })],
     })
 ], DatabaseModule);
 //# sourceMappingURL=database.module.js.map
