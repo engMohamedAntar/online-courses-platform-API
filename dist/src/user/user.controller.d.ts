@@ -19,6 +19,9 @@ export declare class UserController {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     }>;
     updateMe(req: any, body: any, file: Express.Multer.File): Promise<{
         id: number;
@@ -33,6 +36,9 @@ export declare class UserController {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     } & import("./user.entity").User>;
     getAllUsers(): Promise<import("./user.entity").User[]>;
     getOneUser(id: number): Promise<import("./user.entity").User>;
@@ -50,6 +56,9 @@ export declare class UserController {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     } & import("./user.entity").User>;
     removeUser(id: number): Promise<void>;
 }

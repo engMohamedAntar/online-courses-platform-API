@@ -36,7 +36,11 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateCourseWithFileDto.prototype, "duration", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ type: 'string', format: 'binary', required: false }),
+    (0, swagger_1.ApiProperty)({
+        type: 'string',
+        format: 'binary',
+        required: false,
+    }),
     __metadata("design:type", Object)
 ], CreateCourseWithFileDto.prototype, "thumbnail", void 0);
 //# sourceMappingURL=createCourseWithFile.dto.js.map

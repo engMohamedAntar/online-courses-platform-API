@@ -15,4 +15,7 @@ export declare class AuthController {
     };
     auth(): Promise<void>;
     googleAuthCallback(req: any, res: any): Promise<void>;
+    forgotPassword(req: any): Promise<string>;
+    verifyResetCode(req: any, body: any): Promise<string>;
+    resetPassword(req: any, body: any): Promise<string>;
 }

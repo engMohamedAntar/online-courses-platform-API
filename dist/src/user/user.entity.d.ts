@@ -19,4 +19,7 @@ export declare class User {
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
+    resetCode: string;
+    resetCodeExpires: Date;
+    resetCodeVerified: boolean;
 }

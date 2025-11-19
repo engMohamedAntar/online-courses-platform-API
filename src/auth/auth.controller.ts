@@ -54,4 +54,22 @@ export class AuthController {
     //if there is a front end, redirect to it
     // res.redirect(`http://localhost:5173?access=${response.accessToken}&refresh=${response.refreshToken}`);
   }
+
+  @Post('forgotPassword')
+  @UseGuards(AuthGuard('jwt'))
+  async forgotPassword(@Request() req){
+    return await this.authService.forgotPassword(req.user);
+  }
+
+  @Post('verifyResetCode')
+  @UseGuards(AuthGuard('jwt'))
+  async verifyResetCode(@Request() req, @Body() body){
+    return await this.authService.verifyResetCode(req.user, body.resetCode);
+  }
+
+  @Post('resetPassword')
+  @UseGuards(AuthGuard('jwt'))
+  async resetPassword(@Request() req, @Body() body){
+    return await this.authService.resetPassword(req.user,body.newPassword);
+  }
 }

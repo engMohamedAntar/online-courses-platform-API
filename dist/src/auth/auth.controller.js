@@ -43,6 +43,15 @@ let AuthController = class AuthController {
             refreshToken: response.refreshToken,
         });
     }
+    async forgotPassword(req) {
+        return await this.authService.forgotPassword(req.user);
+    }
+    async verifyResetCode(req, body) {
+        return await this.authService.verifyResetCode(req.user, body.resetCode);
+    }
+    async resetPassword(req, body) {
+        return await this.authService.resetPassword(req.user, body.newPassword);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
@@ -85,6 +94,32 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "googleAuthCallback", null);
+__decorate([
+    (0, common_1.Post)('forgotPassword'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "forgotPassword", null);
+__decorate([
+    (0, common_1.Post)('verifyResetCode'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "verifyResetCode", null);
+__decorate([
+    (0, common_1.Post)('resetPassword'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "resetPassword", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

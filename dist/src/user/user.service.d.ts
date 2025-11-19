@@ -22,6 +22,9 @@ export declare class UserService {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     } & User>;
     removeUser(id: number): Promise<void>;
     getMe(userId: number): Promise<{
@@ -38,6 +41,9 @@ export declare class UserService {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     }>;
     updateMe(userId: number, body: Partial<User>): Promise<{
         id: number;
@@ -52,6 +58,9 @@ export declare class UserService {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     } & User>;
     findByEmail(email: string): Promise<User | null>;
 }

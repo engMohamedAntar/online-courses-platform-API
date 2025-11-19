@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import * as bodyParser from 'body-parser';
 import { PaymentService } from './payment/payment.service';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 //main.ts
 async function bootstrap() {
@@ -33,6 +34,7 @@ async function bootstrap() {
   //   }),
   // );
 
+  app.use(helmet());
   app.enableCors({ origin: 'http://localhost:3000' });
 
   const config = new DocumentBuilder()
@@ -40,7 +42,7 @@ async function bootstrap() {
     .setDescription('app description')
     .addServer('http://localhost:4000')
     .setVersion('1.0')
-    .addSecurity('bearer',{type: 'http', scheme: 'bearer'})
+    .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
     .addBearerAuth()
     .build();
 

@@ -20,6 +20,9 @@ export declare class JwtStrategy extends JwtStrategy_base {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     } | null>;
 }
 export {};

@@ -1,6 +1,8 @@
 import {
   ClassSerializerInterceptor,
+  MiddlewareConsumer,
   Module,
+  NestModule,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
@@ -15,6 +17,7 @@ import { PaymentModule } from './payment/payment.module';
 import { UploadModule } from './upload/upload.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { LoggerMiddleware } from './common/middlewares/Logger.middleware';
 
 //app.module.ts
 @Module({
@@ -54,4 +57,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('course');
+  }
+}

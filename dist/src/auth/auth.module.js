@@ -19,6 +19,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const refresh_strategy_1 = require("./strategies/refresh.strategy");
 const google_strategy_1 = require("./strategies/google.strategy");
 const local_strategy_1 = require("./strategies/local.strategy");
+const notifications_module_1 = require("../notifications/notifications.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -27,6 +28,7 @@ exports.AuthModule = AuthModule = __decorate([
         imports: [
             user_module_1.UserModule,
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
+            notifications_module_1.NotificationsModule,
             config_1.ConfigModule,
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],

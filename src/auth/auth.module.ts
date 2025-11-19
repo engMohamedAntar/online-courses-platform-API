@@ -10,11 +10,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RefreshJwtStrategy } from './strategies/refresh.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
   imports: [
     UserModule,
     TypeOrmModule.forFeature([User]),
+    NotificationsModule,
     ConfigModule,
     // ✅ Access Token JWT configuration
     JwtModule.registerAsync({

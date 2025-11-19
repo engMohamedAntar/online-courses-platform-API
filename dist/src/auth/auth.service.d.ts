@@ -6,12 +6,14 @@ import { UserResponseDto } from '../user/dto/userResponse.dto';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/createUser.dto';
+import { NotificationsService } from '../notifications/notifications.service';
 export declare class AuthService {
     private userRepo;
     private jwtService;
     private configService;
     private userService;
-    constructor(userRepo: Repository<User>, jwtService: JwtService, configService: ConfigService, userService: UserService);
+    private notificationService;
+    constructor(userRepo: Repository<User>, jwtService: JwtService, configService: ConfigService, userService: UserService, notificationService: NotificationsService);
     register(body: RegisterDto): Promise<UserResponseDto>;
     generateTokens(user: User): Promise<{
         accessToken: string;
@@ -38,5 +40,11 @@ export declare class AuthService {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     }>;
+    forgotPassword(user: any): Promise<string>;
+    verifyResetCode(user: any, resetCode: string): Promise<string>;
+    resetPassword(user: any, newPassword: string): Promise<string>;
 }

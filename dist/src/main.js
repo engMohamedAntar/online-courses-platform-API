@@ -32,12 +32,16 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const bodyParser = __importStar(require("body-parser"));
 const payment_service_1 = require("./payment/payment.service");
 const swagger_1 = require("@nestjs/swagger");
+const helmet_1 = __importDefault(require("helmet"));
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const expressApp = app.getHttpAdapter().getInstance();
@@ -48,6 +52,7 @@ async function bootstrap() {
             .then((result) => res.status(200).send(result))
             .catch((err) => res.status(400).send(`Webhook error: ${err.message}`));
     });
+    app.use((0, helmet_1.default)());
     app.enableCors({ origin: 'http://localhost:3000' });
     const config = new swagger_1.DocumentBuilder()
         .setTitle('online coruse platform')

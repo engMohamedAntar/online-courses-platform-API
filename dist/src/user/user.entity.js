@@ -34,6 +34,9 @@ let User = class User {
     isActive;
     createdAt;
     updatedAt;
+    resetCode;
+    resetCodeExpires;
+    resetCodeVerified;
 };
 exports.User = User;
 __decorate([
@@ -85,6 +88,18 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "resetCode", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Date)
+], User.prototype, "resetCodeExpires", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, default: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "resetCodeVerified", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)('User')
 ], User);

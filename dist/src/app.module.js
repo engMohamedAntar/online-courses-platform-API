@@ -20,7 +20,11 @@ const payment_module_1 = require("./payment/payment.module");
 const upload_module_1 = require("./upload/upload.module");
 const notifications_module_1 = require("./notifications/notifications.module");
 const mailer_1 = require("@nestjs-modules/mailer");
+const Logger_middleware_1 = require("./common/middlewares/Logger.middleware");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer.apply(Logger_middleware_1.LoggerMiddleware).forRoutes('course');
+    }
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([

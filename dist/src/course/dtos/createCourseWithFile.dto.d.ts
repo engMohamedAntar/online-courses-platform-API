@@ -3,5 +3,5 @@ export declare class CreateCourseWithFileDto {
     description: string;
     price: number;
     duration: number;
-    thumbnail: any;
+    thumbnail: Express.Multer.File;
 }

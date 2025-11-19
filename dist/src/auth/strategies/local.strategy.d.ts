@@ -18,6 +18,9 @@ export declare class LocalStrategy extends LocalStrategy_base {
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
+        resetCode: string;
+        resetCodeExpires: Date;
+        resetCodeVerified: boolean;
     }>;
 }
 export {};

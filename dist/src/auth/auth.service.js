@@ -55,16 +55,20 @@ const bcrypt = __importStar(require("bcrypt"));
 const userResponse_dto_1 = require("../user/dto/userResponse.dto");
 const config_1 = require("@nestjs/config");
 const user_service_1 = require("../user/user.service");
+const notifications_service_1 = require("../notifications/notifications.service");
+const crypto = __importStar(require("crypto"));
 let AuthService = class AuthService {
     userRepo;
     jwtService;
     configService;
     userService;
-    constructor(userRepo, jwtService, configService, userService) {
+    notificationService;
+    constructor(userRepo, jwtService, configService, userService, notificationService) {
         this.userRepo = userRepo;
         this.jwtService = jwtService;
         this.configService = configService;
         this.userService = userService;
+        this.notificationService = notificationService;
     }
     async register(body) {
         const hash = await bcrypt.hash(body.password, 10);
@@ -118,6 +122,53 @@ let AuthService = class AuthService {
         const { password, ...data } = user;
         return data;
     }
+    async forgotPassword(user) {
+        const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const hashedResetCode = crypto
+            .createHash('sha256')
+            .update(resetCode)
+            .digest('hex');
+        user.resetCode = hashedResetCode;
+        user.resetCodeExpires = new Date(Date.now() + 10 * 60 * 1000);
+        await this.notificationService.sendMail({
+            to: user.email,
+            subject: `Reset Code`,
+            message: `Reset Code is: ${resetCode}`,
+        });
+        await this.userRepo.save(user);
+        return `Reset Code sent to ${user.email}`;
+    }
+    async verifyResetCode(user, resetCode) {
+        const hashedResetCode = crypto
+            .createHash('sha256')
+            .update(resetCode)
+            .digest('hex');
+        console.log(user.resetCode);
+        console.log(hashedResetCode);
+        const res = await this.userRepo.findOne({
+            where: {
+                id: user.id,
+                resetCode: hashedResetCode,
+                resetCodeExpires: (0, typeorm_2.MoreThan)(new Date()),
+            },
+        });
+        if (!res)
+            throw new common_1.ForbiddenException('reset code is invalid');
+        res.resetCodeVerified = true;
+        await this.userRepo.save(res);
+        return 'resetCode verified';
+    }
+    async resetPassword(user, newPassword) {
+        const password = await bcrypt.hash(newPassword, 10);
+        if (user.resetCodeVerified) {
+            user.password = password;
+        }
+        user.resetCode = undefined;
+        user.resetCodeExpires = undefined;
+        user.resetCodeVerified = false;
+        await this.userRepo.save(user);
+        return 'password have been reset successfully';
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
@@ -126,6 +177,7 @@ exports.AuthService = AuthService = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository,
         jwt_1.JwtService,
         config_1.ConfigService,
-        user_service_1.UserService])
+        user_service_1.UserService,
+        notifications_service_1.NotificationsService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

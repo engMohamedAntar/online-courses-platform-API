@@ -28,8 +28,8 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Exclude() 
-  @Column() 
+  @Exclude()
+  @Column()
   password: string;
 
   @Column({ enum: UserRole, default: UserRole.STUDENT })
@@ -37,15 +37,14 @@ export class User {
   @Column({ nullable: true })
   profileImageKey: string;
 
-  @OneToMany(() => Course, (course) => course.instructor) 
+  @OneToMany(() => Course, (course) => course.instructor)
   courses: [Course];
 
-  @OneToMany(()=> Enrollment, (enrollment)=> enrollment.user)
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.user)
   enrollments: Enrollment[];
 
   @OneToMany(() => Payment, (payment) => payment.user)
   payments: Payment[];
-  
 
   @Column({ default: true })
   isActive: boolean;
@@ -53,4 +52,11 @@ export class User {
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column({ nullable: true })
+  resetCode: string;
+  @Column({ nullable: true })
+  resetCodeExpires: Date;
+  @Column({ nullable: true, default: false })
+  resetCodeVerified: boolean;
 }

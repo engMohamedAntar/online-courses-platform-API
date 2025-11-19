@@ -6,6 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
+import { NotificationsService } from '../notifications/notifications.service';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -26,7 +27,7 @@ describe('AuthService', () => {
         {
           provide: JwtService,
           useValue: {
-            sign: jest.fn(() => 'lk@ifjfj^fjl*6f'),
+            sign: jest.fn(() => 'lk@ifjfj^fjl*6f'), 
           },
         },
         { provide: ConfigService, useValue: {} },
@@ -42,6 +43,10 @@ describe('AuthService', () => {
               return registerDto;
             }),
           },
+        },
+        {
+          provide: NotificationsService,
+          useValue: {}
         }
       ],
     }).compile();
@@ -51,9 +56,10 @@ describe('AuthService', () => {
     jwtService = module.get<JwtService>(JwtService);
   });
 
-  it('should authService be defined', () => { 
+  it('should authService be defined', () => {  
     expect(authService).toBeDefined();
   });
+
   it('should registerDtoRepo be defined', () => {
     expect(userRepo).toBeDefined();
   });

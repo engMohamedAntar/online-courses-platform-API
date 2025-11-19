@@ -13,6 +13,10 @@ export class CreateCourseWithFileDto {
   @ApiProperty({ required: false })
   duration: number;
 
-  @ApiProperty({ type: 'string', format: 'binary', required: false })
-  thumbnail: any;   // IMPORTANT for showing the file upload in Swagger
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  thumbnail: Express.Multer.File; // IMPORTANT for showing the file upload in Swagger
 }
