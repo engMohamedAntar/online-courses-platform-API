@@ -80,8 +80,43 @@ src/
 # Inastall dependencies
   npm install
 
-# Create a .env file
-  Then update it with your configuration (DB_PORT, DB_USER, DB_PASSWORD, etc...)
+# Create a `.env` file in the root directory and configure the following environment variables:
+```env
+HOST= localhost
+DB_PORT= 5433
+DB_USER= boghdady
+DB_PASSWORD= pass123
+DB_NAME= online-courses-db
+
+#remote db url (Neon)
+Neon_DB_URL= postgresql://neondb_owner:npg_IXuJ5Gh8QrSW@ep-cold-term-ah9k1r3b-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+#jwt
+JWT_SECRET= 75b5b11469b4d5656e8a03d268d47bee428490b231104809d63bd6374a3ba783
+JWT_EXPIRE_IN= 1h
+
+REFRESH_JWT_SECRET= a309aecad2334492ee2dc2cea61c5248fd87b7461d05c508725048008eef6c6a
+REFRESH_JWT_EXPIRE_IN= 7d
+
+#stripe
+STRIPE_SECRET= your-stripe-secret
+STRIPE_WEBHOOK_SECRET= your-webhook-secret
+
+#aws S3 cridentials
+AWS_ACCESS_KEY_ID= your-aws-access-key
+AWS_SECRET_ACCESS_KEY= your-aws-secret
+AWS_REGION= us-east-1
+AWS_BUCKET= onlin-course-platform-bucket
+
+#nodemailer email
+EMAIL_USERNAME= your-gmail
+EMAIL_PASSWORD= gmail-password
+
+#Google credentials
+GOOGLE_CLIENT_ID= 
+GOOGLE_SECRET= 
+GOOGLE_CALLBACK_URL= 
+
+```
 
 # Start the server
   npm run start:dev
